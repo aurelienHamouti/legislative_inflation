@@ -23,7 +23,8 @@ Pour chaque loi, la base données contient plusieurs informations :
 -	l’unité administrative responsable de la loi ; 
 -	le nombre de pages de la loi.
 
-À ce stade, les données ont été recueillies sur **10 ans** (de 2010 à 2020).
+À ce stade, les données ont été recueillies sur **10 ans** (de 2010 à 2020). Le projet et sa base de données ont toutefois été conçus afin de permettre une mise à jour des prochaines lois (pour les années 2021 et suivantes) ainsi qu’un enrichissement (pour les années 2009 et antérieures).
+
 
 ## Auteurs
 **Aurélien Hamouti** (développeur): développement et programmation du code principal et intégration à GitHub.
