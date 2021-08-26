@@ -33,3 +33,44 @@ Pour chaque loi, la base données contient plusieurs informations :
 
 ## Droits d'auteurs
 Copyright@ Tout droits réservés
+
+
+**************************************************************************************************
+
+# Project to visualize the phenomenon of legislative inflation
+
+## Description
+This project is part of the Data Visualization course taught by Mr. Isaac Pante at the University of Lausanne during the spring 2021 semester. It aims to allow the visualization of the work of the Swiss Federal Assembly from several perspectives, including: 
+- **chronological**: by allowing to follow the work of the legislator over the months and years ; 
+- **quantitative**: the project integrates the possibility to aggregate the legislative objects in order to see the number of laws passed per month, per year or over the whole period, as well as the size of each law; 
+- **qualitative**: the color of the elements also makes it possible to determine the themes and sub-themes related to each law.
+
+The objective is to allow the user to observe the work done by the swiss legislator and to be able to draw his own conclusions, for example, on the cycles governing the Assembly, the themes addressed, the legislator's priorities, etc. 
+
+## Database
+Two databases are mainly used to feed the project: 
+- the **[Recueil Officiel](https://www.fedlex.admin.ch/fr/oc?news_period=last_day&news_pageNb=1&news_order=desc&news_itemsPerPage=10)** : from which are extracted only the federal laws definitively voted by the Federal Assembly and published (for the needs of the visualization, ordinances, regulations, decrees taken by the executive power are not included in the database) ; 
+- the **[Recueil systématique](https://www.fedlex.admin.ch/fr/cc?news_period=last_day&news_pageNb=1&news_order=desc&news_itemsPerPage=10)** : from which are extracted the lists of legislative themes as well as their corresponding codes in order to identify the theme of each legislative object in the database.
+
+## Data
+For each law, the database contains several information: 
+- its name;
+- its date of publication;
+- its date of vote or modification;
+- its number in the Recueil Officiel;
+- an hyperlink to the Recueil Officiel;
+- the administrative unit responsible for the law; 
+- its size in number of pages.
+
+At this stage, data has been collected for **10 years** (2010 to 2020). However, the project and its database have been designed to allow for updating of future laws (for the years 2021 onwards) as well as enrichment (for the years 2009 onwards).
+
+
+## Authors
+**Aurélien Hamouti** (developer): development and programming of the main code and integration to GitHub.
+
+**Catherine Döbeli and David Pressouyre** (lawyers): creation, enrichment and update of the databases and development assistance.
+
+## Copyrights
+Copyright@ All rights reserved
+
+
