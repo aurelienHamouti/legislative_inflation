@@ -13,6 +13,9 @@ Deux bases de données sont principalement utilisées afin d’alimenter le proj
 -	le **[Recueil officiel](https://www.fedlex.admin.ch/fr/oc?news_period=last_day&news_pageNb=1&news_order=desc&news_itemsPerPage=10)** : dont sont uniquement extraites les lois fédérales définitivement votées par l’Assemblée fédérale et publiées (pour les besoins de la visualisation, ne sont pas compris dans la base de données les ordonnances, règlements, arrêtés pris par le pouvoir exécutif) ; 
 -	le **[Recueil systématique](https://www.fedlex.admin.ch/fr/cc?news_period=last_day&news_pageNb=1&news_order=desc&news_itemsPerPage=10)** : dont sont extraits les listes de thématiques législatives ainsi que leurs codes correspondants afin de permettre d’identifier la thématique de chaque objet législatif dans la base de données.
 
+<img width="872" alt="IllustrationRORS" src="https://user-images.githubusercontent.com/89149536/130948391-36b7fd0f-175c-492e-9c21-e499abeba190.png">
+
+
 ## Données
 Pour chaque loi, la base données contient plusieurs informations : 
 -	le nom de la loi ;
