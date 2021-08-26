@@ -56,6 +56,8 @@ Two databases are mainly used to feed the project:
 - the **[Recueil Officiel](https://www.fedlex.admin.ch/fr/oc?news_period=last_day&news_pageNb=1&news_order=desc&news_itemsPerPage=10)** : from which are extracted only the federal laws definitively voted by the Federal Assembly and published (for the needs of the visualization, ordinances, regulations, decrees taken by the executive power are not included in the database) ; 
 - the **[Recueil systématique](https://www.fedlex.admin.ch/fr/cc?news_period=last_day&news_pageNb=1&news_order=desc&news_itemsPerPage=10)** : from which are extracted the lists of legislative themes as well as their corresponding codes in order to identify the theme of each legislative object in the database.
 
+![illustrations bases](/figures/IllustrationRORS.png)
+
 ## Data
 For each law, the database contains several information: 
 - its name;
@@ -68,6 +70,7 @@ For each law, the database contains several information:
 
 At this stage, data has been collected for **10 years** (2010 to 2020). However, the project and its database have been designed to allow for updating of future laws (for the years 2021 onwards) as well as enrichment (for the years 2009 onwards).
 
+![illustrations données](figures/IllustrationDonnees1.png)
 
 ## Authors
 **Aurélien Hamouti** (developer): development and programming of the main code and integration to GitHub.
