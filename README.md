@@ -22,11 +22,13 @@ Pour chaque loi, la base données contient plusieurs informations :
 -	un lien hypertexte vers le Recueil officiel ;
 -	l’unité administrative responsable de la loi ; 
 -	le nombre de pages de la loi.
-À ce stade, les données ont été recueillies sur 10 ans (de 2010 à 2020).
+
+À ce stade, les données ont été recueillies sur **10 ans** (de 2010 à 2020).
 
 ## Auteurs
-Aurélien Hamouti (développeur): développement et programmation du code principal et intégration à GitHub.
-Catherine Döbeli et David Pressouyre (juristes) : création, enrichissement et mise à jour des bases de données et assistance au développement.
+**Aurélien Hamouti** (développeur): développement et programmation du code principal et intégration à GitHub.
+
+**Catherine Döbeli et David Pressouyre** (juristes) : création, enrichissement et mise à jour des bases de données et assistance au développement.
 
 ## Droits d'auteurs
 Copyright@ Tout droits réservés
