@@ -1,11 +1,11 @@
 // Variables et constantes ---------------------------------------------------------
 //----------------------------------------------------------------------------------
 
-var width = 1260, // Largeur de la zone de travail
-    height = 1100, // Hauteur de la zone de travail
+var width = 1500, // Largeur de la zone de travail
+    height = 1000, // Hauteur de la zone de travail
     padding = 3, // Espace de séparation entre les noeuds de même couleur
     clusterPadding = 5, // Espace de séparation entre les différents noeuds de couleur
-    maxRadius = 0.7; // Taille maximale des cercles
+    maxRadius = 0.5; // Taille maximale des cercles
     delayTransition = 7 // Délai d'apparition des cercles
     lstCategoriesRS_level_1 = []
 
@@ -13,6 +13,8 @@ var width = 1260, // Largeur de la zone de travail
 let parseDate = d3.time.format("%d.%m.%Y").parse;
 
 var tab_mois=new Array("Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre");
+var yearMax = 1848
+var yearMin = 2100
 
 // Importation des données -------------------------------------------------------
 //--------------------------------------------------------------------------------
@@ -22,8 +24,6 @@ d3.csv("../data/law_inflation_data_2010-2020.csv", function(data) {
   console.log(data);// Affiche les données au format brut dans la console du navigateur
 
   //Filtrer et transformer les données
-  
-
   d3.csv("../data/table_categories_rs.csv", function(corespondanceTable) {
     console.log("data import categories law")// Affiche les données au format brut dans la console du navigateur
     console.log(corespondanceTable)// Affiche les données au format brut dans la console du navigateur
@@ -31,6 +31,10 @@ d3.csv("../data/law_inflation_data_2010-2020.csv", function(data) {
     data.forEach(function (d) {//filtre des données
       d.dateMonth = tab_mois[parseDate(d.date_de_publication).getMonth()];//transformer date en groupe (mois ou années)
 
+      let year = parseDate(d.date_de_publication).getFullYear()// Extraction de la plus petite et de la plus grande années (afin de construire automatiquement la légende)
+      if(year < yearMin){yearMin = year}
+      if(year > yearMax){yearMax = year}
+      
       let categorieRS_level_1 = "Catégorie inconnue"
 
       corespondanceTable.forEach(function (d_table) {// Ajout des catégories et des sous catégories du RS à l'aide de la table de correspondance
@@ -68,8 +72,7 @@ d3.csv("../data/law_inflation_data_2010-2020.csv", function(data) {
 
     console.log(lstCategoriesRS_level_1)  
     var color = d3.scale.category10()
-
-    
+  
 
     // Transformation des données et génération des clusters contenant les cercles -------------------------------------------
     //------------------------------------------------------------------------------------------------------------------------
@@ -87,7 +90,9 @@ d3.csv("../data/law_inflation_data_2010-2020.csv", function(data) {
       d = {
         cluster: cluster, 
         radius: r,
-        nb_pages: d.nb_pages
+        nb_pages: d.nb_pages,
+        date_du_vote : d.date_du_vote,
+        nom_de_la_loi : d.nom_de_la_loi
       };
       clusters[i] = d;
       i += 1;
@@ -114,7 +119,7 @@ d3.csv("../data/law_inflation_data_2010-2020.csv", function(data) {
         .nodes(nodes)
         .size([width, height])
         .gravity(0.02)
-        .charge(-5)
+        .charge(-2)
         .on("tick", tick)
         .start();
 
@@ -125,17 +130,104 @@ d3.csv("../data/law_inflation_data_2010-2020.csv", function(data) {
     var node = svg.selectAll("circle")
         .data(nodes)
 
+    var law_label_node = svg.selectAll(".law_label")// Ajout du label de description d'une loi sélectionnée
+      .data(nodes)
+      .enter().append("g")
+      .attr("class", "law_label")
+      .call(force.drag);
+
+    law_label_node.append("rect")
+      .attr("class", "rect_law_selected_label")
+      .attr("x", "1.5em")
+      .attr("y", "8em")
+      .attr("width", 450)
+      .attr("height", 150)
+      .attr('stroke', 'black')
+      .attr("stroke-opacity", 0)
+      .attr("fill-opacity", "0")// Opacité à 0 afin de cacher le rectangle
+      .attr('fill', '#c8cfd3');
+
+    // Gestion des événements ------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------
+
+    function mouseover(p){
+        //console.log("La souris survole un cercle !")
+        //console.log(clusters)
+        //console.log(p)
+
+        svg.selectAll(".rect_law_selected_label")
+          .attr("fill-opacity", "100")
+          .attr("stroke-opacity", 100);
+  
+        // Ajout des labels textuels d'une loi sélectionnée -----------
+
+        law_label_node.append("text")
+          .attr("class", "text_law_selected_label")
+          .attr("dx", "1.8em")
+          .attr("dy", "8.8em")
+          .attr("font-weight", 1000)
+          .style("text-decoration", "underline")
+          //.style("font-family", "Saira")
+          //.style("opacity", 100)
+          .style('fill', '#1f5e78')
+          .style("font-size", "18px")
+          .text("Informations sur la loi sélectionnée");
+
+        law_label_node.append("text")
+          .attr("class", "text_law_selected_label")
+          .attr("dx", "2.3em")
+          .attr("dy", "13.5em")
+          .style("opacity", 100)
+          .style("font-size", "14px")
+          .text("Titre : " + p.nom_de_la_loi);
+
+        law_label_node.append("text")
+          .attr("class", "text_law_selected_label")
+          .attr("dx", "2.3em")
+          .attr("dy", "15.5em")
+          .style("opacity", 100)
+          .style("font-size", "14px")
+          .text("Date du vote  : " + p.date_du_vote);
+
+        law_label_node.append("text")
+          .attr("class", "text_law_selected_label")
+          .attr("dx", "2.3em")
+          .attr("dy", "17.5em")
+          .style("opacity", 100)
+          .style("font-size", "14px")
+          .text("Nombre de pages : " + p.nb_pages);
+    }
+
+    function mouseout(p){// La souris quitte un cercle, on réinitialise le label
+      if(!isClicked) {
+        //console.log("on quitt le cercle")
+        svg.selectAll(".rect_law_selected_label")
+          .attr("fill-opacity", "0")
+          .attr("stroke-opacity", 0);
+        //svg.selectAll(".text_law_selected_label").remove()
+        svg.selectAll(".text_law_selected_label").text("")
+   
+      }
+    }
+    
+    function click(p){
+        isClicked = !isClicked;
+        //console.log("on clique sur un cercle")
+    }
+    var isClicked = false;
+
+    //----------------------------------------------------
+
     var circleEnter = node.enter()
         .append("circle")
+        .on("mouseover", mouseover)
+        .on("mouseout", mouseout)
+        .on("click", click)
         .style("fill", function(d) {
           //if (d.cluster == 4){console.log(color(d.cluster))}
           return color(d.cluster);
         })
         .call(force.drag);
-
-    circleEnter.append("text")
-        .attr("dx", function(d){return -20})
-        .text(function(d){return d.nb_pages})
 
     node.transition()
         .duration(750)
@@ -205,17 +297,16 @@ d3.csv("../data/law_inflation_data_2010-2020.csv", function(data) {
 
     // Ajout des légendes ----------------------------------------------------------------------------------------------
     //-------------------------------------------------------------------------------------------------------------------
-    let hauteur = 100;
+    let hauteur = 150;
 
-    svg.append("text").attr("x", 350).attr("y", 60).text("Lois publiées entre 2010 et 2020 par catégorie du RS").style("font-size", "20px").attr("alignment-baseline","middle").attr("text-decoration","underline")
-    svg.append("text").attr("x", 800).attr("y", hauteur).text("Légende :").style("font-size", "15px").attr("alignment-baseline","middle").attr("text-decoration","underline")
+    svg.append("text").attr("x", 550).attr("y", 60).text("Lois publiées entre "+yearMin+" et "+yearMax+" par catégorie du RS").style("font-size", "20px").attr("alignment-baseline","middle").attr("text-decoration","underline").attr("font-weight", 1000)
+    svg.append("text").attr("x", 1100).attr("y", hauteur).text("Légende :").style("font-size", "15px").attr("alignment-baseline","middle").attr("text-decoration","underline")
 
     let haut = hauteur
     lstCategoriesRS_level_1.forEach(function (d) {// Ajout de la légende selon données des catégories RS + code couleur
-      console.log(d.description_categorie_rs)
       haut += 30
-      svg.append("text").attr("x", 800).attr("y", haut).text(d.description_categorie_rs).style("font-size", "15px").attr("alignment-baseline","middle")
-      svg.append("circle").attr("cx",780).attr("cy",haut-5).attr("r", 6).style("fill", color(d.num_rs))
+      svg.append("text").attr("x", 1120).attr("y", haut).text(d.description_categorie_rs).style("font-size", "15px").attr("alignment-baseline","middle")
+      svg.append("circle").attr("cx",1100).attr("cy",haut-5).attr("r", 6).style("fill", color(d.num_rs))
     });
   });
 });
