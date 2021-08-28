@@ -5,12 +5,13 @@ var width = 1500, // Largeur de la zone de travail
     height = 1000, // Hauteur de la zone de travail
     padding = 3, // Espace de séparation entre les noeuds de même couleur
     clusterPadding = 5, // Espace de séparation entre les différents noeuds de couleur
-    delayTransition = 7 // Délai d'apparition des cercles
-    lstCategoriesRS_level_1 = []
-    hauteurLegende = 150;
-    maxRadiusCircles = document.getElementById("sizeCircles").value / 100
-    charge = -3
-    gravity = 0.02
+    delayTransition = 7, // Délai d'apparition des cercles
+    lstCategoriesRS_level_1 = [],
+    hauteurLegende = 150,
+    maxRadiusCircles = document.getElementById("sizeCircles").value / 100,
+    rsCategoriesSelected = null
+    charge = -3,
+    gravity = 0.02;
 
 // Gestion des dates -----------------------------------------------------
 // -----------------------------------------------------------------------
@@ -27,11 +28,11 @@ var dateMinDefault = new Date(document.getElementById("anneeAfficheesMin").value
 
 // Lancement du graph --------------------------------------------------------------
 
-loadGraph(maxRadiusCircles, dateMinDefault, dateMaxDefault)// Appel de la fonction qui va charger les données et construire le graphique
+loadGraph(maxRadiusCircles, dateMinDefault, dateMaxDefault, rsCategoriesSelected)// Appel de la fonction qui va charger les données et construire le graphique
 
 // ---------------------------------------------------------------------------------
 
-function loadGraph(maxRadius, dateMinSelected, dateMaxSelected){
+function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsCategoriesSelected){
 
  
   // Importation des données -------------------------------------------------------
@@ -103,24 +104,40 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected){
       let i = 0;
       data.forEach(function (d) {
 
-        // Uniquement les occurences de d qui sont conformes aux dates min et max sélectionnées
-        // Do ...
-
-        console.log("date max : " + dateMaxSelected)
-        if(parseDate(d.date_de_publication) < dateMaxSelected && parseDate(d.date_de_publication) > dateMinSelected){
-          r = d.nb_pages * maxRadius;//pour chaque loi extraire nombre de page -> radius
-          let cluster = d.categorieRS_level_1_nb;//pour chaque loi extraire catégorie RS (1..N) -> cluster
-          
-          //ajouter le cluster à la liste des clusters
-          d = {
-            cluster: cluster, 
-            radius: r,
-            nb_pages: d.nb_pages,
-            date_du_vote : d.date_du_vote,
-            date_de_publication : d.date_de_publication,
-            nom_de_la_loi : d.nom_de_la_loi
-          };
-          clusters.push(d);
+        let ch =  document.getElementById("rs"+d.categorieRS_level_1_nb)
+        console.log("ch cluster: " + ch)
+        if(ch == null){
+           // Uniquement les occurences de d qui sont conformes aux dates min et max sélectionnées
+           if(parseDate(d.date_de_publication) < dateMaxSelected && parseDate(d.date_de_publication) > dateMinSelected){
+              r = d.nb_pages * maxRadius;//pour chaque loi extraire nombre de page -> radius
+              let cluster = d.categorieRS_level_1_nb;//pour chaque loi extraire catégorie RS (1..N) -> cluster
+              //ajouter le cluster à la liste des clusters
+              d = {
+                cluster: cluster, 
+                radius: r,
+                nb_pages: d.nb_pages,
+                date_du_vote : d.date_du_vote,
+                date_de_publication : d.date_de_publication,
+                nom_de_la_loi : d.nom_de_la_loi
+              };
+              clusters.push(d);
+          }
+        }else{
+          // Uniquement les occurences de d qui sont conformes aux dates min et max sélectionnées
+          if(parseDate(d.date_de_publication) < dateMaxSelected && parseDate(d.date_de_publication) > dateMinSelected && ch.checked == true){
+            r = d.nb_pages * maxRadius;//pour chaque loi extraire nombre de page -> radius
+            let cluster = d.categorieRS_level_1_nb;//pour chaque loi extraire catégorie RS (1..N) -> cluster
+            //ajouter le cluster à la liste des clusters
+            d = {
+              cluster: cluster, 
+              radius: r,
+              nb_pages: d.nb_pages,
+              date_du_vote : d.date_du_vote,
+              date_de_publication : d.date_de_publication,
+              nom_de_la_loi : d.nom_de_la_loi
+            };
+            clusters.push(d);
+          }
         }
       });
 
@@ -330,16 +347,38 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected){
       }
 
       // Ajout des légendes ----------------------------------------------------------------------------------------------
-      //-------------------------------------------------------------------------------------------------------------------
-      
-      svg.append("text").attr("x", 550).attr("y", 60).text("Lois publiées entre le "+dateMinSelected.getDate() + " " +tab_mois[dateMinSelected.getMonth()]+" "+dateMinSelected.getFullYear()+" et le "+dateMaxSelected.getDate() + " " +tab_mois[dateMaxSelected.getMonth()]+" "+dateMaxSelected.getFullYear()+" par catégorie du RS").style("font-size", "20px").attr("alignment-baseline","middle").attr("text-decoration","underline").attr("font-weight", 1000)
+      //------------------------------------------------------------------------------------------------------------------
+
+      svg.append("text").attr("x", 450).attr("y", 60).text("Lois publiées entre le "+dateMinSelected.getDate() + " " +tab_mois[dateMinSelected.getMonth()]+" "+dateMinSelected.getFullYear()+" et le "+dateMaxSelected.getDate() + " " +tab_mois[dateMaxSelected.getMonth()]+" "+dateMaxSelected.getFullYear()+" par catégorie du RS").style("font-size", "20px").attr("alignment-baseline","middle").attr("text-decoration","underline").attr("font-weight", 1000)
       svg.append("text").attr("x", 1100).attr("y", hauteurLegende).text("Légende :").style("font-size", "15px").attr("alignment-baseline","middle").attr("text-decoration","underline")
 
       let haut = hauteurLegende
+
       lstCategoriesRS_level_1.forEach(function (d) {// Ajout de la légende selon données des catégories RS + code couleur
         haut += 30
         svg.append("text").attr("x", 1120).attr("y", haut).text(d.description_categorie_rs).style("font-size", "15px").attr("alignment-baseline","middle")
         svg.append("circle").attr("cx",1100).attr("cy",haut-5).attr("r", 6).style("fill", color(d.num_rs))
+ 
+        let isChecked = true
+        
+        //console.log(rsCategoriesSelected)
+
+        let ch =  document.getElementById("rs"+d.num_rs)
+        if(ch != null){
+          console.log("ch : "+ ch.checked)
+        }else{
+          d3.select("body").selectAll("#rsCategories")
+          .append('label')
+            .attr("class", "rsCheckboxes")
+            .text(d.description_categorie_rs) 
+          .append("input")
+            .attr("class", "rsCheckboxes")
+            .attr("id", "rs"+d.num_rs)
+            .attr("value", d.num_rs)
+            .attr("checked", isChecked)
+            .attr("type", "checkbox")
+            .attr("onClick", "changeRsCategories(checked, value)");
+        }
       });
     });
   });
@@ -364,4 +403,12 @@ function changeMaxDate(maxDate){
 function changeMinDate(minDate){
   d3.select("svg").remove();
   loadGraph(maxRadiusCircles, new Date(minDate), dateMaxDefault)
+}
+
+function changeRsCategories(isChecked, rsCategorie){
+  //console.log(rsCategorie + " : " + isChecked)
+  d3.select("svg").remove()
+  //d3.select("body").selectAll(".rsCheckboxes").remove()
+  //document.location.reload();
+  loadGraph(maxRadiusCircles, dateMinDefault, dateMaxDefault, [rsCategorie, isChecked])
 }
