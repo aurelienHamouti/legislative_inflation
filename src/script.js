@@ -93,7 +93,9 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsCategoriesSele
 
       // The largest node for each cluster.
       var clusters = new Array();
-      console.log(" nbLois : " + data.length);
+
+      nodes = new Array();
+
 
       let i = 0;
       data.forEach(function (d) {
@@ -113,7 +115,30 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsCategoriesSele
                 date_de_publication : d.date_de_publication,
                 nom_de_la_loi : d.nom_de_la_loi
               };
-              clusters.push(d);
+
+
+             
+              let clusterAlreadyPresent = false  
+              clusters.forEach(function (c){
+                if(c.cluster == d.cluster){
+                  //console.log(c.cluster + " == " + d.cluster)
+                  //console.log(c.radius + " < " + d.radius)
+                  if(c.radius < d.radius){
+                    //console.log(c.radius + " < " + d.radius)
+                    //console.log(clusters[clusters.indexOf(c)])
+                    clusters.splice(clusters.indexOf(c), 1)
+                   
+                    clusters.push(d)
+                  }
+                  clusterAlreadyPresent = true
+                }
+              })
+              if(clusters.length < 1){
+                clusters.push(d)
+              }
+              if(!clusterAlreadyPresent){clusters.push(d)}
+
+              nodes.push(d);
           }
         }else{
           // Uniquement les occurences de d qui sont conformes aux dates min et max sélectionnées
@@ -128,14 +153,31 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsCategoriesSele
               date_de_publication : d.date_de_publication,
               nom_de_la_loi : d.nom_de_la_loi
             };
-            clusters.push(d);//ajouter le cluster à la liste des clusters
+
+           
+            let clusterAlreadyPresent = false  
+            clusters.forEach(function (c){
+              if(c.cluster == d.cluster){
+                if(c.radius < d.radius){
+                  clusters.slice(clusters.indexOf(c), 1)
+                  clusters.push(d)
+                }
+                clusterAlreadyPresent = true
+              }
+            })
+            if(clusters.length < 1){clusters.push(d)}
+            if(!clusterAlreadyPresent){clusters.push(d)}
+
+            nodes.push(d);//ajouter le cluster à la liste des clusters
           }
         }
       });
 
-      console.log("liste of clusters :")
+      console.log("liste des clusters :")
       console.log(clusters)
-      nodes = clusters // Les clusters contiennent les cercles
+
+      console.log("liste des noeuds (cercles) :")
+      console.log(nodes)
 
       // Paramétrage des champs de forces, positionnement des cercles par rapport aux autres -------------------------------
       //--------------------------------------------------------------------------------------------------------------------
@@ -304,23 +346,12 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsCategoriesSele
       function cluster(alpha) {
         return function(d) {
 
-          var cluster = clusters[d.cluster];
+          var cluster     
+          clusters.forEach(function(c){
+            //console.log(c.cluster + " == " + d.cluster)
+            if(c.cluster == d.cluster){ cluster = c}
+          })
 
-            //console.log("cluster.x : " + cluster.x)
-            //console.log(d.nom_de_la_loi == "")
-            // Loi fédérale sur les services financiers (LSFin)
-            // Loi fédérale sur l'amélioration de la conciliation entre activité professionnelle et prise en charge de proches
-            /*if(d.nom_de_la_loi == "Loi fédérale sur les services financiers (LSFin)"){
-              console.log("d : " + d.cluster)
-              console.log("SQRT : " + l)
-              console.log("cluster : " + cluster.cluster)
-            }
-
-            if (cluster === d) {
-              console.log("--------------------------------------------------------------------")
-            }*/
-
-          
           if (cluster === d) return;
           var x = d.x - cluster.x,
               y = d.y - cluster.y,
