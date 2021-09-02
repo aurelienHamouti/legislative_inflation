@@ -233,31 +233,19 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsCategoriesSele
           law_label_node.append("rect")
           .attr("class", "rect_law_selected_label")
           .attr("x", "1.5em")
-          .attr("y", "8em")
+          .attr("y", "10em")
           .attr("width", 450)
-          .attr("height", 170)
+          .attr("height", 150)
           .attr('stroke', 'black')
           .attr("stroke-opacity", 0)
           .attr("fill-opacity", "0")// Opacité à 0 afin de cacher le rectangle
-          .attr('fill', '#c8cfd3');
+          .attr('fill', '#A1C6E8');
 
           svg.selectAll(".rect_law_selected_label")
             .attr("fill-opacity", "100")
             .attr("stroke-opacity", 100);
     
           // Ajout des labels textuels d'une loi sélectionnée -----------
-
-          law_label_node.append("text")
-            .attr("class", "text_law_selected_label")
-            .attr("dx", "1.8em")
-            .attr("dy", "8.8em")
-            .attr("font-weight", 1000)
-            .style("text-decoration", "underline")
-            //.style("font-family", "Saira")
-            //.style("opacity", 100)
-            .style('fill', '#1f5e78')
-            .style("font-size", "18px")
-            .text("Informations sur la loi sélectionnée");
 
           law_label_node.append("text")
             .attr("class", "text_law_selected_label")

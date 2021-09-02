@@ -1,0 +1,12 @@
+/* APPLIQUER HELVETICA A TOUT LE TEXTE */
+*
+{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* TITRE */
+h1
+{
+    font-size: 40px;
+}
+
