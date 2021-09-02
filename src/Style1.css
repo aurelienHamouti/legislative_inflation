@@ -4,9 +4,15 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-/* TITRE */
+/* Titre */
 h1
 {
-    font-size: 40px;
+    font-size: 50px;
 }
 
+/* Sous-titre */
+h2
+{
+    font-size: 12px;
+    font-weight: normal;
+}

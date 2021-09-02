@@ -239,7 +239,7 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsCategoriesSele
           .attr('stroke', 'black')
           .attr("stroke-opacity", 0)
           .attr("fill-opacity", "0")// Opacité à 0 afin de cacher le rectangle
-          .attr('fill', '#A1C6E8');
+          .attr('fill', '#e7eb90');
 
           svg.selectAll(".rect_law_selected_label")
             .attr("fill-opacity", "100")
@@ -386,8 +386,8 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsCategoriesSele
       // Ajout des légendes ----------------------------------------------------------------------------------------------
       //------------------------------------------------------------------------------------------------------------------
 
-      svg.append("text").attr("x", 450).attr("y", 60).text("Lois publiées entre le "+dateMinSelected.getDate() + " " +tab_mois[dateMinSelected.getMonth()]+" "+dateMinSelected.getFullYear()+" et le "+dateMaxSelected.getDate() + " " +tab_mois[dateMaxSelected.getMonth()]+" "+dateMaxSelected.getFullYear()+" par catégorie du RS").style("font-size", "20px").attr("alignment-baseline","middle").attr("text-decoration","underline").attr("font-weight", 1000)
-      svg.append("text").attr("x", 1100).attr("y", hauteurLegende).text("Légende :").style("font-size", "15px").attr("alignment-baseline","middle").attr("text-decoration","underline")
+      
+      svg.append("text").attr("x", 1100).attr("y", hauteurLegende).text("Légende :").style("font-size", "15px").attr("alignment-baseline","middle").attr("font-weight", "bold")
 
       let haut = hauteurLegende
 
