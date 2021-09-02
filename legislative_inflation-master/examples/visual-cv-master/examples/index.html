@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="res/css/styles.css">
+
+    <title>Visual CV</title>
+</head>
+
+<body>
+    <div id="container" class="container">
+        <h1>Visual CV</h1>
+        <div id="cv" class="cv">
+
+        </div>
+    </div>
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="d3cv.js"></script>
+
+    <script>
+        (function () {
+            function loadJSON() {
+                var xobj = new XMLHttpRequest();
+
+                xobj.overrideMimeType("application/json");
+                xobj.open("GET", "test2.json", true);
+                xobj.onreadystatechange = function () {
+                    if (xobj.readyState == 4 && xobj.status == "200") {
+                        var data = JSON.parse(xobj.responseText);
+                        d3.cv({
+                            periodData: data.periods,
+                            momentData: data.moments,
+                            chartSelector: "#cv"
+                        });
+                    }
+                };
+                xobj.send(null);
+            }
+
+            loadJSON();
+
+        }());
+    </script>
+</body>
+
+</html>
