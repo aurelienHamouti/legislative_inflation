@@ -20,7 +20,7 @@
 
     <label id="switchLabel">Visualisation aggrégée</label>
     <label class="switch">
-        <input type="checkbox">
+        <input type="checkbox" onchange="changeGraph(checked, value)">
         <span class="slider round"></span>
       </label>
 
@@ -36,7 +36,9 @@
     <div id="rsCategories"> </div>
 
 
-    <g class="law_label" transform="translate(130,492)"></g>
+    <g class="law_label" transform="translate(130,492)">
+        
+    </g>
    
     <script src="//d3js.org/d3.v3.min.js"></script>
     <script src="script.js"></script>
