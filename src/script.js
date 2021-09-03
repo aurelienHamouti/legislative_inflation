@@ -40,8 +40,6 @@ loadGraph(maxRadiusCircles, dateMinDefault, dateMaxDefault, rsLevelSelected, rsC
 
 function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected, rsCategorieSelected){
   dateMinSelected -= 1
-  console.log("anneeMin " + dateMinSelected)
-  console.log("anneeMax " + dateMaxDefault)
 
   // Importation des données -------------------------------------------------------
   //--------------------------------------------------------------------------------
@@ -319,8 +317,8 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
           svg.selectAll(".rect_law_selected_label")
             .attr("fill-opacity", "0")
             .attr("stroke-opacity", 0);
-          //svg.selectAll(".text_law_selected_label").remove()
-          //svg.selectAll(".text_law_selected_label").text("")
+          svg.selectAll(".text_law_selected_label").remove()
+          svg.selectAll(".text_law_selected_label").text("")
     
         }
       }
@@ -509,7 +507,6 @@ function changeAnnee(anneeMin){
 function changeGraph(checked, value) {
   d3.select("svg").remove();
   document.getElementById("rsCategories").innerHTML = '';
-  console.log(checked)
   if(checked == true){
     document.getElementById("affichageAnneeSelectionnee").style.display = "none";
     document.getElementById("selectAnnee").style.display = "none";
@@ -547,18 +544,50 @@ function LoadlineChart(){
       .get(function(error, rows) { 
 
         //var collection_array = d3.values(rows);
+
+        
         
         max = d3.max(rows, function(d) { return d.pages; });
         minDate = d3.min(rows, function(d) {return d.date; });
         maxDate = d3.max(rows, function(d) { return d.date; });		
-/*
-d3.csv("prices.csv")
-        .row(function(d) { return { month: parseDate(d.month), price: Number(d.price.trim().slice(1))}; })
-        .get(function(error, rows) { 
-          max = d3.max(rows, function(d) { return d.price; });
-          minDate = d3.min(rows, function(d) {return d.month; });
-        maxDate = d3.max(rows, function(d) { return d.month; });		*/
+
+        console.log("test " + minDate)
+
+        let data = new Array();
+
+        let years = new Array();
+        for (let i = minDate.getFullYear(); i <= maxDate.getFullYear(); i++) {
+          years.push(i)
+        }
+        console.log(years)
+        
+        years.forEach(function (y){
+          let sum = 0
+          rows.forEach(function (d){
+            if(y == d.date.getFullYear()){sum += d.pages}
+            
+          })
+          data.push({date:new Date(y, 1, 1), pages:sum})
+        })
+        console.log(data)
+
+        max = d3.max(data, function(d) { return d.pages; });
+        minDate = new Date(2010, 1, 1);
+
+        console.log("test 2 " + minDate)
+        maxDate = new Date(2020, 12, 31);
+        
+
+        /*
+            result = rows.reduce(function (r, a) {
+            r[a.date] = r[a.date] || [];
+            r[a.date].push(a);
+           return r;
+        }, Object.create(null));
+
+        console.log(result);*/
   
+        console.log("data for line chart")
         console.log(rows)
   
       var y = d3.scale.linear()
@@ -594,7 +623,7 @@ d3.csv("prices.csv")
     
       chartGroup.append("path")
         .attr("class","line")
-        .attr("d",function(d){ return line(rows); })		
+        .attr("d",function(d){ return line(data); })		
       
       chartGroup.append("g")
         .attr("class","axis x")
