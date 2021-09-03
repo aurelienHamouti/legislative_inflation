@@ -1,13 +1,13 @@
 // Variables et constantes ---------------------------------------------------------
 //----------------------------------------------------------------------------------
 
-var width = 1500, // Largeur de la zone de travail
-    height = 1000, // Hauteur de la zone de travail
+var width = 1600, // Largeur de la zone de travail
+    height = 900, // Hauteur de la zone de travail
     padding = 3, // Espace de séparation entre les noeuds de même couleur
     clusterPadding = 10, // Espace de séparation entre les différents noeuds de couleur
     delayTransition = 3, // Délai d'apparition des cercles
     lstCategoriesRS = [],
-    hauteurLegende = 150,
+    hauteurLegende = 300,
     maxRadiusCircles = document.getElementById("sizeCircles").value / 100,
     rsLevelSelected = 1
     rsCategorieSelected = null
@@ -28,6 +28,9 @@ var anneeMax = dateMaxDefault.getFullYear();
 var anneeMin = dateMinDefault.getFullYear();
 dateMinDefault = anneeMin
 dateMaxDefault = anneeMax
+
+document.getElementById("affichageAnneeSelectionnee").innerHTML = 'Lois publiées au RO de ' + anneeMin + ' à 2020';
+document.getElementById("selectAnnee").value = anneeMin;
 
 // Lancement du graph ----------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------
@@ -243,8 +246,8 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
 
           law_label_node.append("rect")
           .attr("class", "rect_law_selected_label")
-          .attr("x", "1.5em")
-          .attr("y", "10em")
+          .attr("x", "5%")
+          .attr("y", "25%")
           .attr("width", 450)
           .attr("height", 150)
           .attr('stroke', 'black')
@@ -272,32 +275,32 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
 
           law_label_node.append("text")
             .attr("class", "text_law_selected_label")
-            .attr("dx", "2.3em")
-            .attr("dy", "13.5em")
+            .attr("dx", "5.5%")
+            .attr("dy", "28%")
             .style("opacity", 100)
             .style("font-size", "14px")
             .text("Titre : " + p.nom_de_la_loi);
 
           law_label_node.append("text")
             .attr("class", "text_law_selected_label")
-            .attr("dx", "2.3em")
-            .attr("dy", "15.5em")
+            .attr("dx", "5.5%")
+            .attr("dy", "31.5%")
             .style("opacity", 100)
             .style("font-size", "14px")
             .text("Date de publication : " + p.date_de_publication);
 
           law_label_node.append("text")
             .attr("class", "text_law_selected_label")
-            .attr("dx", "2.3em")
-            .attr("dy", "17.5em")
+            .attr("dx", "5.5%")
+            .attr("dy", "34.5%")
             .style("opacity", 100)
             .style("font-size", "14px")
             .text("Date du vote  : " + p.date_du_vote);
 
           law_label_node.append("text")
             .attr("class", "text_law_selected_label")
-            .attr("dx", "2.3em")
-            .attr("dy", "19.5em")
+            .attr("dx", "5.5%")
+            .attr("dy", "37.5%")
             .style("opacity", 100)
             .style("font-size", "14px")
             .text("Nombre de pages : " + p.nb_pages);
@@ -419,7 +422,7 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
       //------------------------------------------------------------------------------------------------------------------
 
       //svg.append("text").attr("x", 450).attr("y", 60).text("Lois publiées entre le "+dateMinSelected.getDate() + " " +tab_mois[dateMinSelected.getMonth()]+" "+dateMinSelected.getFullYear()+" et le "+dateMaxSelected.getDate() + " " +tab_mois[dateMaxSelected.getMonth()]+" "+dateMaxSelected.getFullYear()+" par catégorie du RS").style("font-size", "20px").attr("alignment-baseline","middle").attr("text-decoration","underline").attr("font-weight", 1000)
-      svg.append("text").attr("x", 1100).attr("y", hauteurLegende).text("Légende :").style("font-size", "15px").attr("alignment-baseline","middle").attr("text-decoration","underline")
+      svg.append("text").attr("x", 1180).attr("y", hauteurLegende -10).text("Légende :").style("font-size", "20px").attr("alignment-baseline","middle")
 
       let haut = hauteurLegende
 
@@ -427,7 +430,7 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
         haut += 30
         var categorie = d.num_rs
         svg.append("text")
-          .attr("x", 1120).attr("y", haut)
+          .attr("x", 1180).attr("y", haut)
           .text(d.description_categorie_rs)
           .style("font-size", "15px").attr("alignment-baseline","middle")
           .attr("value", categorie)
@@ -436,7 +439,7 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
           });
           //.attr("onclick", "selectedCategorie(rsLevelSelected, value)");
 
-        svg.append("circle").attr("cx",1100).attr("cy",haut-5).attr("r", 6).style("fill", color(d.num_rs))
+        svg.append("circle").attr("cx",1140).attr("cy",haut-5).attr("r", 6).style("fill", color(d.num_rs))
         
         // Checkbox des catégories ---------------------------------------------
         let ch = document.getElementById("rs"+d.num_rs)
@@ -444,7 +447,7 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
           d3.select("body").selectAll("#rsCategories")
           .append("input")
             .style("position", "absolute")
-            .style("left", 1560 + "px").style("top", haut + 242 + "px")
+            .style("left", 1620 + "px").style("top", haut + 1 + "px")
             .attr("class", "rsCheckboxes")
             .attr("id", "rs"+d.num_rs)
             .attr("value", d.num_rs)

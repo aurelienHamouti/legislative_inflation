@@ -17,10 +17,27 @@ h2
     font-weight: normal;
 }
 
+#mainTitle {
+    position: absolute;
+    left: 5%;
+    top: 0%;
+}
+
+/*sélecteur des années*/
 #selectAnnee {
+    position: absolute;
+    left: 5%;
+    top: 85%;
     width:30%;
 }
 
+#affichageAnneeSelectionnee {
+    position: absolute;
+    left: 5%;
+    top: 88%;
+}
+
+/*catégories RS*/
 .rsCategoriesFieldset {
     position: absolute;
     left: 1600px;
@@ -32,11 +49,20 @@ h2
 
  /* The switch - the box around the slider ---------------------------------- */
 
+#switchLabel {
+    position: absolute;
+    left: 8.5%;
+    top: 15.55%;
+}
+
 .switch {
     position: relative;
     display: inline-block;
     width: 60px;
     height: 34px;
+    position: absolute;
+    left: 5%;
+    top: 15%;
 }
   
 /* Hide default HTML checkbox */
