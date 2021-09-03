@@ -24,6 +24,10 @@ const tab_mois=new Array("janvier", "février", "mars", "avril", "mai", "juin", 
 
 var dateMaxDefault = new Date(document.getElementById("anneeAfficheesMax").value);
 var dateMinDefault = new Date(document.getElementById("anneeAfficheesMin").value);
+var anneeMax = dateMaxDefault.getFullYear();
+var anneeMin = dateMinDefault.getFullYear();
+dateMinDefault = anneeMin
+dateMaxDefault = anneeMax
 
 // Lancement du graph ----------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------
@@ -31,6 +35,9 @@ var dateMinDefault = new Date(document.getElementById("anneeAfficheesMin").value
 loadGraph(maxRadiusCircles, dateMinDefault, dateMaxDefault, rsLevelSelected, rsCategorieSelected)// Appel de la fonction qui va charger les données et construire le graphique
 
 function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected, rsCategorieSelected){
+  dateMinSelected -= 1
+  console.log("anneeMin " + dateMinSelected)
+  console.log("anneeMax " + dateMaxDefault)
 
   // Importation des données -------------------------------------------------------
   //--------------------------------------------------------------------------------
@@ -86,7 +93,6 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
       });
 
       console.log(lstCategoriesRS)// Affiche les données au format brut dans la console du navigateur
-
       console.log("Data with RS categories : ")// Affiche les données avec les catégories dans la console du navigateur
       console.log(data)// Affiche les données avec les catégories dans la console du navigateur
 
@@ -117,22 +123,22 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
         if(rsLevelSelected == 1){
           let ch =  document.getElementById("rs"+d.categorieRS_level_1_nb)
           if(ch == null){// Cas de figure où la page est chargée pour la 1ère fois, sans catégorie sélectionnée
-             if(parseDate(d.date_de_publication) < dateMaxSelected && parseDate(d.date_de_publication) > dateMinSelected){// Uniquement les occurences de d qui sont conformes aux dates min et max sélectionnées
+             if(parseDate(d.date_de_publication).getFullYear() < dateMaxSelected && parseDate(d.date_de_publication).getFullYear() > dateMinSelected){// Uniquement les occurences de d qui sont conformes aux dates min et max sélectionnées
                addNodesToList(d.categorieRS_level_1_nb);
             }
           }else{
-            if(parseDate(d.date_de_publication) < dateMaxSelected && parseDate(d.date_de_publication) > dateMinSelected && ch.checked == true){
+            if(parseDate(d.date_de_publication).getFullYear() < dateMaxSelected && parseDate(d.date_de_publication).getFullYear() > dateMinSelected && ch.checked == true){
               addNodesToList(d.categorieRS_level_1_nb);
             }
           }
         }else if(rsLevelSelected == 2){
           let ch =  document.getElementById("rs"+d.categorieRS_level_2_nb)
           if(ch == null){
-             if(parseDate(d.date_de_publication) < dateMaxSelected && parseDate(d.date_de_publication) > dateMinSelected && d.categorieRS_level_1_nb == rsCategorieSelected){
+             if(parseDate(d.date_de_publication).getFullYear() < dateMaxSelected && parseDate(d.date_de_publication).getFullYear() > dateMinSelected && d.categorieRS_level_1_nb == rsCategorieSelected){
               addNodesToList(d.categorieRS_level_2_nb)
             }
           }else{
-            if(parseDate(d.date_de_publication) < dateMaxSelected && parseDate(d.date_de_publication) > dateMinSelected && ch.checked == true && d.categorieRS_level_1_nb == rsCategorieSelected){
+            if(parseDate(d.date_de_publication).getFullYear() < dateMaxSelected && parseDate(d.date_de_publication).getFullYear() > dateMinSelected && ch.checked == true && d.categorieRS_level_1_nb == rsCategorieSelected){
               addNodesToList(d.categorieRS_level_2_nb);
             }
           }
@@ -140,11 +146,11 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
           console.log("niveau 3 du RS")
           let ch =  document.getElementById("rs"+d.categorieRS_level_3_nb)
           if(ch == null){
-             if(parseDate(d.date_de_publication) < dateMaxSelected && parseDate(d.date_de_publication) > dateMinSelected && d.categorieRS_level_2_nb == rsCategorieSelected){
+             if(parseDate(d.date_de_publication).getFullYear() < dateMaxSelected && parseDate(d.date_de_publication).getFullYear() > dateMinSelected && d.categorieRS_level_2_nb == rsCategorieSelected){
               addNodesToList(d.categorieRS_level_3_nb)
             }
           }else{
-            if(parseDate(d.date_de_publication) < dateMaxSelected && parseDate(d.date_de_publication) > dateMinSelected && ch.checked == true && d.categorieRS_level_2_nb == rsCategorieSelected){
+            if(parseDate(d.date_de_publication).getFullYear() < dateMaxSelected && parseDate(d.date_de_publication).getFullYear() > dateMinSelected && ch.checked == true && d.categorieRS_level_2_nb == rsCategorieSelected){
               addNodesToList(d.categorieRS_level_3_nb);
             }
           }
@@ -238,13 +244,13 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
           law_label_node.append("rect")
           .attr("class", "rect_law_selected_label")
           .attr("x", "1.5em")
-          .attr("y", "8em")
+          .attr("y", "10em")
           .attr("width", 450)
-          .attr("height", 170)
+          .attr("height", 150)
           .attr('stroke', 'black')
           .attr("stroke-opacity", 0)
           .attr("fill-opacity", "0")// Opacité à 0 afin de cacher le rectangle
-          .attr('fill', '#c8cfd3');
+          .attr('fill', '#e7eb90');
 
           svg.selectAll(".rect_law_selected_label")
             .attr("fill-opacity", "100")
@@ -252,7 +258,7 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
     
           // Ajout des labels textuels d'une loi sélectionnée -----------
 
-          law_label_node.append("text")
+          /*law_label_node.append("text")
             .attr("class", "text_law_selected_label")
             .attr("dx", "1.8em")
             .attr("dy", "8.8em")
@@ -262,7 +268,7 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
             //.style("opacity", 100)
             .style('fill', '#1f5e78')
             .style("font-size", "18px")
-            .text("Informations sur la loi sélectionnée");
+            .text("Informations sur la loi sélectionnée");*/
 
           law_label_node.append("text")
             .attr("class", "text_law_selected_label")
@@ -436,10 +442,9 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
         let ch = document.getElementById("rs"+d.num_rs)
         if(ch == null){
           d3.select("body").selectAll("#rsCategories")
-          .append('label')
-            .attr("class", "rsCheckboxes")
-            .text(d.description_categorie_rs) 
           .append("input")
+            .style("position", "absolute")
+            .style("left", 1560 + "px").style("top", haut + 242 + "px")
             .attr("class", "rsCheckboxes")
             .attr("id", "rs"+d.num_rs)
             .attr("value", d.num_rs)
@@ -461,15 +466,15 @@ function changeSizeCircles(maxRadius){
   loadGraph(maxRadius/100, dateMinDefault, dateMaxDefault, rsLevelSelected, rsCategorieSelected)
 }
 
-function changeMaxDate(maxDate){
+/*function changeMaxDate(maxDate){
   d3.select("svg").remove();
   loadGraph(maxRadiusCircles, dateMinDefault, new Date(maxDate), rsLevelSelected, rsCategorieSelected)
-}
+}*/
 
-function changeMinDate(minDate){
+/*function changeMinDate(minDate){
   d3.select("svg").remove();
   loadGraph(maxRadiusCircles, new Date(minDate), dateMaxDefault, rsLevelSelected, rsCategorieSelected)
-}
+}*/
 
 function changeRsCategories(isChecked, rsCategorie){
   d3.select("svg").remove();
@@ -480,4 +485,13 @@ function selectedCategorie(rsLevelSelected, categorie){
   d3.select("svg").remove();
   document.getElementById("rsCategories").innerHTML = '';
   loadGraph(maxRadiusCircles, dateMinDefault, dateMaxDefault, rsLevelSelected+1, categorie)
+}
+
+function changeAnnee(anneeMin){
+  document.getElementById("affichageAnneeSelectionnee").innerHTML = 'Lois publiées au RO de ' + anneeMin + ' à 2020';
+  d3.select("svg").remove();
+  document.getElementById("rsCategories").innerHTML = '';
+  //console.log("année max : " + anneeMax)
+  //console.log("année anneeMin : " + anneeMin)
+  loadGraph(maxRadiusCircles, anneeMin, anneeMax, rsLevelSelected, rsCategorieSelected)
 }
