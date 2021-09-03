@@ -412,7 +412,7 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
       // Ajout des légendes ----------------------------------------------------------------------------------------------
       //------------------------------------------------------------------------------------------------------------------
 
-      svg.append("text").attr("x", 450).attr("y", 60).text("Lois publiées entre le "+dateMinSelected.getDate() + " " +tab_mois[dateMinSelected.getMonth()]+" "+dateMinSelected.getFullYear()+" et le "+dateMaxSelected.getDate() + " " +tab_mois[dateMaxSelected.getMonth()]+" "+dateMaxSelected.getFullYear()+" par catégorie du RS").style("font-size", "20px").attr("alignment-baseline","middle").attr("text-decoration","underline").attr("font-weight", 1000)
+      //svg.append("text").attr("x", 450).attr("y", 60).text("Lois publiées entre le "+dateMinSelected.getDate() + " " +tab_mois[dateMinSelected.getMonth()]+" "+dateMinSelected.getFullYear()+" et le "+dateMaxSelected.getDate() + " " +tab_mois[dateMaxSelected.getMonth()]+" "+dateMaxSelected.getFullYear()+" par catégorie du RS").style("font-size", "20px").attr("alignment-baseline","middle").attr("text-decoration","underline").attr("font-weight", 1000)
       svg.append("text").attr("x", 1100).attr("y", hauteurLegende).text("Légende :").style("font-size", "15px").attr("alignment-baseline","middle").attr("text-decoration","underline")
 
       let haut = hauteurLegende
