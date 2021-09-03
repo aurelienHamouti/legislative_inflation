@@ -44,15 +44,28 @@ h2
     top: 400px;
     height: 500px;
     width: 10px;
-
 }
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: slategray;
+  shape-rendering: crispEdges;
+}
+
+path.line {
+    fill: none;
+    stroke: red;
+    stroke-width: 3px;
+} 
+
 
  /* The switch - the box around the slider ---------------------------------- */
 
 #switchLabel {
     position: absolute;
-    left: 8.5%;
-    top: 15.55%;
+    left: 5%;
+    top: 15%;
 }
 
 .switch {
@@ -62,7 +75,7 @@ h2
     height: 34px;
     position: absolute;
     left: 5%;
-    top: 15%;
+    top: 18%;
 }
   
 /* Hide default HTML checkbox */

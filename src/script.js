@@ -18,7 +18,7 @@ var width = 1600, // Largeur de la zone de travail
 // -----------------------------------------------------------------------
 
 // Parse de la date au format jj.mm.yyyy
-let parseDate = d3.time.format("%d.%m.%Y").parse;
+var parseDate = d3.time.format("%d.%m.%Y").parse;
 
 const tab_mois=new Array("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre");
 
@@ -34,6 +34,7 @@ document.getElementById("selectAnnee").value = anneeMin;
 
 // Lancement du graph ----------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------
+
 
 loadGraph(maxRadiusCircles, dateMinDefault, dateMaxDefault, rsLevelSelected, rsCategorieSelected)// Appel de la fonction qui va charger les données et construire le graphique
 
@@ -273,13 +274,18 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
             .style("font-size", "18px")
             .text("Informations sur la loi sélectionnée");*/
 
+         
+          let nom_loi = p.nom_de_la_loi
+
+          //document.getElementById("test").innerHTML = nom_loi
+
           law_label_node.append("text")
-            .attr("class", "text_law_selected_label")
-            .attr("dx", "5.5%")
-            .attr("dy", "28%")
-            .style("opacity", 100)
-            .style("font-size", "14px")
-            .text("Titre : " + p.nom_de_la_loi);
+          .attr("class", "text_law_selected_label")
+          .attr("dx", "5.5%")
+          .attr("dy", "28%")
+          .style("opacity", 100)
+          .style("font-size", "14px")
+          .text("Titre : " + nom_loi);
 
           law_label_node.append("text")
             .attr("class", "text_law_selected_label")
@@ -304,6 +310,7 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
             .style("opacity", 100)
             .style("font-size", "14px")
             .text("Nombre de pages : " + p.nb_pages);
+            
       }
 
       function mouseout(p){// La souris quitte un cercle, on réinitialise le label
@@ -313,7 +320,7 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
             .attr("fill-opacity", "0")
             .attr("stroke-opacity", 0);
           //svg.selectAll(".text_law_selected_label").remove()
-          svg.selectAll(".text_law_selected_label").text("")
+          //svg.selectAll(".text_law_selected_label").text("")
     
         }
       }
@@ -497,4 +504,120 @@ function changeAnnee(anneeMin){
   //console.log("année max : " + anneeMax)
   //console.log("année anneeMin : " + anneeMin)
   loadGraph(maxRadiusCircles, anneeMin, anneeMax, rsLevelSelected, rsCategorieSelected)
+}
+
+function changeGraph(checked, value) {
+  d3.select("svg").remove();
+  document.getElementById("rsCategories").innerHTML = '';
+  console.log(checked)
+  if(checked == true){
+    document.getElementById("affichageAnneeSelectionnee").style.display = "none";
+    document.getElementById("selectAnnee").style.display = "none";
+    LoadlineChart()
+  }else{
+    document.getElementById("affichageAnneeSelectionnee").style.display = "inline";
+    document.getElementById("selectAnnee").style.display = "inline";
+    loadGraph(maxRadiusCircles, dateMinDefault, dateMaxDefault, rsLevelSelected, rsCategorieSelected)
+  }
+  
+}
+
+function LoadlineChart(){
+  //var parseDate = d3.time.format("%m/%d/%Y").parse;
+
+  var margin = {left: 50, right: 20, top: 200, bottom: 50 };
+  
+  var width = 1500 - margin.left - margin.right;
+  var height = 650 - margin.top - margin.bottom;
+  
+  var max = 0;
+  
+  var xNudge = 50;
+  var yNudge = 20;
+  
+  var minDate = new Date();
+  var maxDate = new Date();
+
+  var parseDate = d3.time.format("%d.%m.%Y").parse;
+  
+  
+  d3.csv("../data/law_inflation_data_2010-2020.csv")
+  
+      .row(function(d) { return { date: parseDate(d.date_de_publication), pages: Number(d.nb_pages)}; })
+      .get(function(error, rows) { 
+
+        //var collection_array = d3.values(rows);
+        
+        max = d3.max(rows, function(d) { return d.pages; });
+        minDate = d3.min(rows, function(d) {return d.date; });
+        maxDate = d3.max(rows, function(d) { return d.date; });		
+/*
+d3.csv("prices.csv")
+        .row(function(d) { return { month: parseDate(d.month), price: Number(d.price.trim().slice(1))}; })
+        .get(function(error, rows) { 
+          max = d3.max(rows, function(d) { return d.price; });
+          minDate = d3.min(rows, function(d) {return d.month; });
+        maxDate = d3.max(rows, function(d) { return d.month; });		*/
+  
+        console.log(rows)
+  
+      var y = d3.scale.linear()
+            .domain([0,max])
+            .range([height,0]);
+      
+      var x = d3.time.scale()
+            .domain([minDate,maxDate])
+            .range([0,width]);
+      
+      var yAxis = d3.svg.axis()
+              .orient("left")
+              .scale(y);
+              
+      var xAxis = d3.svg.axis()
+              .orient("bottom")
+              .scale(x);
+      
+      var line = d3.svg.line()
+        .x(function(d){ return x(d.date); })
+        .y(function(d){ return y(d.pages); })
+        .interpolate("cardinal");
+      
+      var svg = d3.select("body").append("svg")
+        .attr("id","svg")
+        .style("top", "25%")
+        .style("left", "5%")
+        .style("position", "absolute")
+        .attr("height","100%")
+        .attr("width","100%");
+
+      var chartGroup = svg.append("g").attr("class","chartGroup").attr("transform","translate("+xNudge+","+yNudge+")");
+    
+      chartGroup.append("path")
+        .attr("class","line")
+        .attr("d",function(d){ return line(rows); })		
+      
+      chartGroup.append("g")
+        .attr("class","axis x")
+        .attr("transform","translate(0,"+height+")")
+        .call(xAxis)
+        .append("text")
+          .attr("transform", "rotate(0)")
+          .attr("y", 40)
+          .attr("dy", ".71em")
+          .attr("x", 1400)
+          .attr("dx", ".71em")
+          .style("text-anchor", "end")
+          .text("Temps");
+        
+      chartGroup.append("g")
+        .attr("class","axis y")
+        .call(yAxis)
+        .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 9)
+          .attr("dy", ".71em")
+          .style("text-anchor", "end")
+          .text("Nombre de pages publiées au RO");
+      
+    });
 }
