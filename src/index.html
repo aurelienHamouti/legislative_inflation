@@ -4,23 +4,42 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css" />
     <title>Cluster force layout</title>
+
 </head>
 <body>
-    <h3>Taille des cercles</h3>
 
-    <input type="range" id="sizeCircles" value="50" min="10" max="150" onchange="changeSizeCircles(this.value)">
-    <input type="date" id="anneeAfficheesMin" value="2010-01-01" min="2010-01-01" max="2020-12-31" step="1" onchange="changeMinDate(this.value)">
-    <input type="date" id="anneeAfficheesMax" value="2020-12-31" min="2010-01-01" max="2020-12-31"  step="1" onchange="changeMaxDate(this.value)">
+    <header>
+        <h1>Projet de visualisation de l'évolution législative suisse </h1>
+    </header>
 
-    <fieldset>  
-        <legend>Catégories RS affichées</legend>  
-        <div id="rsCategories"> </div>
-    </fieldset>  
+    <!-- en attente de suppression -->
+    <!--<h2>Zoom : </h2> la barre pour changer la taille des cercles est cachée -> type hidden -->
+    <input type="hidden"  id="sizeCircles" value="50" min="10" max="150" onchange="changeSizeCircles(this.value)">
+
+    <label id="switchLabel">Visualisation aggrégée</label>
+    <label class="switch">
+        <input type="checkbox">
+        <span class="slider round"></span>
+      </label>
+
+
+    <h3 id="affichageAnneeSelectionnee">Lois publiées au RO de 2010 à 2020</h3>
+    <input type="range" id="selectAnnee" value="2010" min="2010" max="2020" step="1" onchange="changeAnnee(this.value)">
+
+    <!-- en attente de suppression -->
+    <input type="hidden" id="anneeAfficheesMin" value="2010-01-01" min="2010-01-01" max="2020-12-31" step="1" onchange="changeMinDate(this.value)">
+    <input type="hidden" id="anneeAfficheesMax" value="2020-12-31" min="2010-01-01" max="2020-12-31"  step="1" onchange="changeMaxDate(this.value)">
     
+
+    <div id="rsCategories"> </div>
+
+
     <g class="law_label" transform="translate(130,492)"></g>
-      
+   
     <script src="//d3js.org/d3.v3.min.js"></script>
     <script src="script.js"></script>
+
 </body>
 </html>
