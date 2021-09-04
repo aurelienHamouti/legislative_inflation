@@ -32,6 +32,8 @@ dateMaxDefault = anneeMax
 document.getElementById("affichageAnneeSelectionnee").innerHTML = 'Lois publiées au RO de ' + anneeMin + ' à 2020';
 document.getElementById("selectAnnee").value = anneeMin;
 
+document.getElementById("chChangeGraph").checked = true;
+
 // Lancement du graph ----------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------
 
@@ -507,7 +509,7 @@ function changeAnnee(anneeMin){
 function changeGraph(checked, value) {
   d3.select("svg").remove();
   document.getElementById("rsCategories").innerHTML = '';
-  if(checked == true){
+  if(checked == false){
     document.getElementById("affichageAnneeSelectionnee").style.display = "none";
     document.getElementById("selectAnnee").style.display = "none";
     LoadlineChart()
@@ -631,11 +633,12 @@ function LoadlineChart(){
         .call(xAxis)
         .append("text")
           .attr("transform", "rotate(0)")
-          .attr("y", 40)
+          .attr("y", 50)
           .attr("dy", ".71em")
-          .attr("x", 1400)
+          .attr("x", 1420)
           .attr("dx", ".71em")
           .style("text-anchor", "end")
+          .attr("font-weight", 700)
           .text("Temps");
         
       chartGroup.append("g")
@@ -643,9 +646,11 @@ function LoadlineChart(){
         .call(yAxis)
         .append("text")
           .attr("transform", "rotate(-90)")
-          .attr("y", 9)
+          .attr("y", 12)
           .attr("dy", ".71em")
           .style("text-anchor", "end")
+          .attr("font-weight", 700)
+          .style("opacity", 1)
           .text("Nombre de pages publiées au RO");
       
     });
