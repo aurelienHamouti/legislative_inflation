@@ -8,10 +8,11 @@ Le présent projet s’inscrit dans le cadre du cours de Visualisation des donn�
 
 L’objectif poursuivi est de permettre à l’utilisateur d’observer le travail effectué par le législateur et de pouvoir tirer ses propres conclusions par exemple sur les cycles régissant l’Assemblée , les thématiques qui y sont abordées, les priorités du législateur etc. 
 
-### Graphique aggrégé (Champs de force gravitationnel)
+### Illustration du graphique aggrégé (Champs de force gravitationnel par catégorie du RS)
 ![illustrations graphique aggrégé](/figures/Illustration_graphique_aggrégé_1.jpg)
 
-### Graphique non aggrégé (Augmentation annuelle)
+
+### Illustration du graphique non aggrégé (Augmentation annuelle du RO)
 ![illustrations graphique non aggrégé](/figures/Illustration_graphique_non_aggrégé_1.jpg)
 
 
