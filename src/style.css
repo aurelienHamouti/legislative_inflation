@@ -17,6 +17,11 @@ h2
     font-weight: normal;
 }
 
+#affichageAnneeSelectionnee {
+  font-size: 26px;
+  font-weight: bold;
+}
+
 #mainTitle {
     position: absolute;
     left: 5%;
