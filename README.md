@@ -15,6 +15,13 @@ L’objectif poursuivi est de permettre à l’utilisateur d’observer le trava
 ### Illustration du graphique non aggrégé (Augmentation annuelle du RO)
 ![illustrations graphique non aggrégé](/figures/Illustration_graphique_non_aggrégé_1.jpg)
 
+## Installation et mise en place
+Pour installer le programme, il est nécessaire de place les fichiers sur un serveur local ou distant.
+
+Pour consulter le programme, il suffit d'indiquer l'url du serveur dans un navigateur web de votre choix. De préférence Firefox ou Chrome.
+
+Le logiciel utilsant une version en ligne de la librairie de visualisation D3.JS, une connexion à internet est requise.
+
 
 ## Base de données
 Deux bases de données sont principalement utilisées afin d’alimenter le projet : 
