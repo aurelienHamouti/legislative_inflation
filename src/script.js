@@ -17,6 +17,7 @@
     https://bl.ocks.org/mbostock/7882658
     https://bl.ocks.org/emmasaunders/f55caf3a742aac10a5d44f58374bf343
 */
+
 let maxRadiusCircles = document.getElementById("sizeCircles").value / 100,
     lstCategoriesRS = [],
     rsLevelSelected = 1
@@ -31,9 +32,10 @@ const
       parseDate = d3.time.format("%d.%m.%Y").parse,
       tab_mois = new Array("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre");
 
-document.getElementById("affichageAnneeSelectionnee").innerHTML = 'Lois publiées au RO de ' + dateAnneeMin + ' à 2020';
+document.getElementById("affichageAnneeSelectionnee").innerHTML = 'Lois publiées de ' + dateAnneeMin + ' à 2020';
 document.getElementById("selectAnnee").value = dateAnneeMin;
 document.getElementById("chChangeGraph").checked = true;
+
 
 // Gestion des événements -----------------------------------------------------
 // ---------------------------------------------------------------------------
@@ -67,7 +69,7 @@ function selectedCategorie(rsLevelSelected, categorie){
 }
 
 function changeAnnee(anneeMin){
-  document.getElementById("affichageAnneeSelectionnee").innerHTML = 'Lois publiées au RO de ' + anneeMin + ' à 2020';
+  document.getElementById("affichageAnneeSelectionnee").innerHTML = 'Lois publiées de : ' + anneeMin + ' à 2020';
   document.getElementById("selectAnnee").value = anneeMin;
   d3.select("svg").remove();
   loadAgregateGraph(maxRadiusCircles, anneeMin, dateAnneeMax, rsLevelSelected, rsCategorieSelected)
@@ -103,7 +105,7 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelS
   let 
     charge = -3,
     gravity = 0.02,
-    clusterPadding = 10, // Espace de séparation entre les différents noeuds de couleur
+    clusterPadding = 7, // Espace de séparation entre les différents noeuds de couleur
     clusters = new Array(),
     nodes = new Array();
 
@@ -233,6 +235,7 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelS
 
       console.log("liste des noeuds (cercles) :")
       console.log(nodes)
+
 
       // Paramétrage des champs de forces, positionnement des cercles par rapport aux autres -------------------------------
       //--------------------------------------------------------------------------------------------------------------------

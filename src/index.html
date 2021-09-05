@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css" />
     <title>Cluster force layout</title>
 
+
 </head>
 <body>
 
@@ -18,12 +19,13 @@
     <!--<h2>Zoom : </h2> la barre pour changer la taille des cercles est cachée -> type hidden -->
     <input type="hidden"  id="sizeCircles" value="50" min="10" max="150" onchange="changeSizeCircles(this.value)">
 
-    <label id="switchLabel">Visualisation aggrégée</label>
+    <div>
+    <label id="switchLabel">Visualisation agrégée : </label>
     <label class="switch">
         <input type="checkbox" id="chChangeGraph" onchange="changeGraph(checked, value)">
         <span class="slider round"></span>
       </label>
-
+    </div>
 
     <h3 id="affichageAnneeSelectionnee"></h3>
     <input type="range" id="selectAnnee" value="2010" min="2010" max="2020" step="1" onchange="changeAnnee(this.value)">
