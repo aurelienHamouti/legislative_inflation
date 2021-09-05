@@ -1,4 +1,4 @@
-# Projet de visualisation de l'évolution législative en Suisse 
+# Projet de visualisation du phénomène d'inflation législative
 
 ## Description
 Le présent projet s’inscrit dans le cadre du cours de Visualisation des données dispensé par M. Isaac Pante à l’Université de Lausanne au semestre du printemps 2021. Il a pour objet de permettre la visualisation de l’œuvre de l’Assemblée fédérale suisse selon plusieurs perspectives, notamment : 
@@ -7,25 +7,6 @@ Le présent projet s’inscrit dans le cadre du cours de Visualisation des donn�
 -	**qualitative** : la couleur des éléments permet en outre de déterminer les thématiques et sous-thématiques relatives à chaque loi.
 
 L’objectif poursuivi est de permettre à l’utilisateur d’observer le travail effectué par le législateur et de pouvoir tirer ses propres conclusions par exemple sur les cycles régissant l’Assemblée , les thématiques qui y sont abordées, les priorités du législateur etc. 
-
-
-### Illustration du graphique agrégé 
-![illustrations graphique aggrégé](/figures/Illustration_graphique_aggrégé_1.jpg)
-
-
-### Illustration du graphique chronologique
-![illustrations graphique non aggrégé](/figures/Illustration_graphique_non_aggrégé_1.jpg)
-
-
-## Installation et mise en place
-Pour installer le programme, il est nécessaire de télécharger et d'extraire les fichiers sur un serveur local ou distant (Sur GitHub, cliquer sur "Code" puis "Download Zip", extraire le fichier dans le dossier souhaité).
-
-Le programme n'étant pas encore hébergé sur un site internet, il peut être consulté en local en téléchargeant un logiciel d'édition de codes (comme  **[Visual Studio Code](https://code.visualstudio.com/download)**, en installant l'extension **[Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)**).
-
-Depuis Visual Code Studio avec l'extension Live Server, ouvrir le dossier téléchargé en cliquant sur "Fichier" puis "Ouvrir le dossier". Le script peut désormais être lancé en cliquant sur le bouton en bas à droite de l'écran **Go Live**. 
-
-Le logiciel utilisant une version en ligne de la librairie de visualisation D3.JS, une connexion à internet est requise.
-
 
 ## Base de données
 Deux bases de données sont principalement utilisées afin d’alimenter le projet : 
@@ -60,34 +41,15 @@ Copyright@ Tout droits réservés
 
 **************************************************************************************************
 
-# Project to visualize the legislative evolution in Switzerland 
+# Project to visualize the phenomenon of legislative inflation
 
 ## Description
 This project is part of the Data Visualization course taught by Mr. Isaac Pante at the University of Lausanne during the spring 2021 semester. It aims to allow the visualization of the work of the Swiss Federal Assembly from several perspectives, including: 
-- **Chronological**: by allowing to follow the work of the legislator over the months and years; 
-- **Quantitative**: the project integrates the possibility to aggregate the legislative objects in order to see the number of laws passed per month, per year or over the whole given period, as well as the size of each law; 
-- **Qualitative**: the color of the elements also makes it possible to determine the themes and sub-themes related to each law.
+- **chronological**: by allowing to follow the work of the legislator over the months and years ; 
+- **quantitative**: the project integrates the possibility to aggregate the legislative objects in order to see the number of laws passed per month, per year or over the whole period, as well as the size of each law; 
+- **qualitative**: the color of the elements also makes it possible to determine the themes and sub-themes related to each law.
 
-The objective is to allow the user to observe the work done by the legislator and to be able to draw his or her own conclusions, for example, on the cycles governing the Assembly, the themes addressed, the legislator's priorities, etc. 
-
-
-### Illustration of the aggregated graph 
-![illustrations graphique aggrégé](/figures/Illustration_graphique_aggrégé_1.jpg)
-
-
-### Illustration of the chronological graph
-![illustrations graphique non aggrégé](/figures/Illustration_graphique_non_aggrégé_1.jpg)
-
-
-## Installation and setup
-To install the program, it is necessary to download and extract the files on a local or remote server (on GitHub, click on "Code" then "Download Zip", extract the file in the desired folder).
-
-As the program is not yet hosted on a website, it can be consulted locally by downloading a code editing software (like **[Visual Studio Code](https://code.visualstudio.com/download)**, by installing the **[Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)** extension).
-
-From Visual Code Studio with the Live Server extension, open the downloaded file by clicking on "File" then "Open the file". tTe script can now be launched by clicking on the button at the bottom right of the **Go Live** screen. 
-
-As the software uses an online version of the D3.JS visualization library, an internet connection is required.
-
+The objective is to allow the user to observe the work done by the swiss legislator and to be able to draw his own conclusions, for example, on the cycles governing the Assembly, the themes addressed, the legislator's priorities, etc. 
 
 ## Database
 Two databases are mainly used to feed the project: 

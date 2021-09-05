@@ -1,4 +1,4 @@
-/* APPLIQUER HELVETICA A TOUT LE TEXTE */
+/* Pour l'ensemble du script */
 *
 {
     font-family: Arial, Helvetica, sans-serif;
@@ -18,27 +18,27 @@ h2
 }
 
 #affichageAnneeSelectionnee {
-  font-size: 26px;
+  font-size: 15px;
   font-weight: bold;
 }
 
 #mainTitle {
-    position: absolute;
-    left: 5%;
+    position: static;
+    left: 0%;
     top: 0%;
 }
 
 /*sélecteur des années*/
 #selectAnnee {
     position: absolute;
-    left: 5%;
+    left: 0%;
     top: 85%;
     width:30%;
 }
 
 #affichageAnneeSelectionnee {
     position: absolute;
-    left: 5%;
+    left: 0%;
     top: 88%;
 }
 
@@ -61,7 +61,7 @@ h2
 path.line {
     fill: none;
     stroke: red;
-    stroke-width: 3px;
+    stroke-width: 10px;
 } 
 
 
@@ -69,8 +69,8 @@ path.line {
 
 #switchLabel {
     position: absolute;
-    left: 5%;
-    top: 15%;
+    left: 0%;
+    top: 30%;
 }
 
 .switch {
@@ -79,8 +79,8 @@ path.line {
     width: 60px;
     height: 34px;
     position: absolute;
-    left: 5%;
-    top: 18%;
+    left: 0%;
+    top: 25%;
 }
   
 /* Hide default HTML checkbox */
