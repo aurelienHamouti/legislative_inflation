@@ -1,31 +1,35 @@
-/*
+/* -----------------------------------------------------------------------------
   Projet : 
     This project is part of the Data Visualization course taught by Mr. Isaac Pante at the University of Lausanne 
     during the spring 2021 semester. 
     - Course Git : https://github.com/ipante/ressources_visualisation_de_donnees
     - projet Git : https://github.com/aurelienHamouti/legislative_inflation
-    
   Date : September 2021
-
   Autors : 
     Aurélien Hamouti (developer): development and programming of the main code and integration to GitHub.
     Catherine Döbeli and David Pressouyre (lawyers): creation, enrichment and update of the databases and development assistance.
-  
   Licence : Copyright@ All rights reserved
-
   References : 
     https://bl.ocks.org/mbostock/7882658
     https://bl.ocks.org/emmasaunders/f55caf3a742aac10a5d44f58374bf343
-*/
+
+---------------------------------------------------------------------------------*/
+
 let maxRadiusCircles = document.getElementById("sizeCircles").value / 100,
     lstCategoriesRS = [],
     rsLevelSelected = 1
-    rsCategorieSelected = null
+    rsCategorieSelected = null,
+    charge = -3,
+    gravity = 0.02,
+    clusterPadding = 10, // Espace de séparation entre les différents noeuds de couleur
+    width = 1600, // Largeur de la zone de travail
+    height = 900, // Hauteur de la zone de travail
+    padding = 3, // Espace de séparation entre les noeuds de même couleur
+    delayTransition = 3, // Délai d'apparition des cercles
     dateAnneeMax = new Date(document.getElementById("anneeAfficheesMax").value).getFullYear(),
     dateAnneeMin = new Date(document.getElementById("anneeAfficheesMin").value).getFullYear();
 
 const 
-
       dateMaxDefault = dateAnneeMax,
       dateMinDefault = dateAnneeMin,
       parseDate = d3.time.format("%d.%m.%Y").parse,
@@ -34,6 +38,15 @@ const
 document.getElementById("affichageAnneeSelectionnee").innerHTML = 'Lois publiées au RO de ' + dateAnneeMin + ' à 2020';
 document.getElementById("selectAnnee").value = dateAnneeMin;
 document.getElementById("chChangeGraph").checked = true;
+
+function initializeParameters(){
+  charge = -3; gravity = 0.02; maxRadiusCircles = document.getElementById("sizeCircles").value / 100;
+  clusterPadding = 10; // Espace de séparation entre les différents noeuds de couleur
+  width = 1600; // Largeur de la zone de travail
+  height = 900; // Hauteur de la zone de travail
+  padding = 3; // Espace de séparation entre les noeuds de même couleur
+  delayTransition = 3; // Délai d'apparition des cercles
+}
 
 // Gestion des événements -----------------------------------------------------
 // ---------------------------------------------------------------------------
@@ -62,14 +75,34 @@ function changeRsCategories(isChecked, rsCategorie){
 function selectedCategorie(rsLevelSelected, categorie){
   d3.select("svg").remove();
   document.getElementById("rsCategories").innerHTML = '';
-  
-  loadAgregateGraph(maxRadiusCircles, dateMinDefault, dateMaxDefault, rsLevelSelected+1, categorie)
+
+  anneeMin = document.getElementById("selectAnnee").value;
+
+  if(rsLevelSelected < 3){
+    maxRadiusCircles = 1.5;
+    clusterPadding = 3;
+    charge = -3;
+    gravity = 0.02;
+    loadAgregateGraph(maxRadiusCircles, anneeMin, dateMaxDefault, rsLevelSelected+1, categorie)
+  }else{
+    document.location.reload();
+  }
+
+
+  dateAnneeMin = new Date(document.getElementById("selectAnnee").value).getFullYear();
 }
 
 function changeAnnee(anneeMin){
   document.getElementById("affichageAnneeSelectionnee").innerHTML = 'Lois publiées au RO de ' + anneeMin + ' à 2020';
   document.getElementById("selectAnnee").value = anneeMin;
   d3.select("svg").remove();
+  initializeParameters();
+
+
+console.log("rsLevelSelected : " + rsLevelSelected);
+console.log("rsCategorieSelected : " + rsCategorieSelected);
+
+document.getElementById("rsCategories").innerHTML = '';
   loadAgregateGraph(maxRadiusCircles, anneeMin, dateAnneeMax, rsLevelSelected, rsCategorieSelected)
 }
 
@@ -91,19 +124,15 @@ function changeGraph(checked, value) {
 //-------------------------------------------------------------------------------------------
 loadAgregateGraph(maxRadiusCircles, dateMinDefault, dateMaxDefault, rsLevelSelected, rsCategorieSelected)// Appel de la fonction qui va charger les données et construire le graphique
 
-function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected, rsCategorieSelected){
+function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevel, rsCategorieSelected){
+  console.log("rsLevelSelected : " + rsLevelSelected)
+  rsLevelSelected = rsLevel
+
   const 
-    width = 1600, // Largeur de la zone de travail
-    height = 900, // Hauteur de la zone de travail
-    padding = 3, // Espace de séparation entre les noeuds de même couleur
-    delayTransition = 3, // Délai d'apparition des cercles
     hauteurLegende = 300,
     color = d3.scale.category10();
 
   let 
-    charge = -3,
-    gravity = 0.02,
-    clusterPadding = 10, // Espace de séparation entre les différents noeuds de couleur
     clusters = new Array(),
     nodes = new Array();
 
@@ -154,10 +183,9 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelS
         });
       });
 
-      console.log(lstCategoriesRS)// Affiche les données au format brut dans la console du navigateur
       console.log("Data with RS categories : ")// Affiche les données avec les catégories dans la console du navigateur
       console.log(data)// Affiche les données avec les catégories dans la console du navigateur
-      console.log("Catégorie RS de niveau 1")
+      console.log("Liste catégorie RS")
       console.log(lstCategoriesRS)  
       
     
@@ -233,6 +261,10 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelS
 
       console.log("liste des noeuds (cercles) :")
       console.log(nodes)
+
+      if(nodes <= 1){
+        //document.location.reload();
+      }
 
       // Paramétrage des champs de forces, positionnement des cercles par rapport aux autres -------------------------------
       //--------------------------------------------------------------------------------------------------------------------
@@ -324,7 +356,7 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelS
             .text("Nombre de pages : " + p.nb_pages);
       }
 
-      function mouseout(p){// La souris quitte un cercle, on réinitialise le label
+      function mouseout(){// La souris quitte un cercle, on réinitialise le label
         if(!isClicked) {
           svg.selectAll(".rect_law_selected_label")
             .attr("fill-opacity", "0")
@@ -338,12 +370,20 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelS
           isClicked = !isClicked;
           d3.select("svg").remove();
           document.getElementById("rsCategories").innerHTML = '';
-          maxRadiusCircles = 2.1;
-          clusterPadding = 3;
-          charge = -3;
-          gravity = 0.02;
-          loadAgregateGraph(maxRadiusCircles, dateMinDefault, dateMaxDefault, rsLevelSelected+1, p.cluster)
+          if(p.cluster != null && p.cluster.toString().length < 3){
+            //console.log("null ----------------------------------- //");
+            maxRadiusCircles = 2;
+            clusterPadding = 3;
+            charge = -3;
+            gravity = 0.02;
+            anneeMin = document.getElementById("selectAnnee").value;
+            loadAgregateGraph(maxRadiusCircles, anneeMin, dateMaxDefault, rsLevelSelected+1, p.cluster)
+          }else{
+            //console.log("reload ----------------------------------- //");
+            document.location.reload();
+          }
       }
+
       var isClicked = false;
 
       //----------------------------------------------------
@@ -442,10 +482,18 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelS
         haut += 30
         var categorie = d.num_rs
         svg.append("text")
+          .attr("id", "rsTxt"+d.num_rs)
           .attr("x", 1180).attr("y", haut)
           .text(d.description_categorie_rs)
           .style("font-size", "15px").attr("alignment-baseline","middle")
           .attr("value", categorie)
+          .on("mouseover", function() {
+            svg.select("rsTxt"+d.num_rs).style("text-decoration", "underline")
+            //document.getElementById("rs"+d.num_rs).style.color = "blue";
+          })
+          .on("mouseout", function() {
+            svg.select("rsTxt"+d.num_rs).style("text-decoration", "none")
+          })
           .on("click", function(){
             selectedCategorie(rsLevelSelected, categorie)
           });
