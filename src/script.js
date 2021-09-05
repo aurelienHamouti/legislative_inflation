@@ -431,6 +431,7 @@ function loadGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected,
       //svg.append("text").attr("x", 450).attr("y", 60).text("Lois publiées entre le "+dateMinSelected.getDate() + " " +tab_mois[dateMinSelected.getMonth()]+" "+dateMinSelected.getFullYear()+" et le "+dateMaxSelected.getDate() + " " +tab_mois[dateMaxSelected.getMonth()]+" "+dateMaxSelected.getFullYear()+" par catégorie du RS").style("font-size", "20px").attr("alignment-baseline","middle").attr("text-decoration","underline").attr("font-weight", 1000)
       svg.append("text").attr("x", 1180).attr("y", hauteurLegende -10).text("Légende :").style("font-size", "20px").attr("alignment-baseline","middle")
 
+      
       let haut = hauteurLegende
 
       lstCategoriesRS.forEach(function (d) {// Ajout de la légende selon données des catégories RS + code couleur
