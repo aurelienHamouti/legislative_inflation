@@ -72,11 +72,11 @@ The objective is to allow the user to observe the work done by the legislator an
 
 
 ### Illustration of the aggregated graph 
-![illustrations aggregated graph](/figures/Illustration_graphique_aggrégé_1.jpg)
+![illustrations graphique aggrégé](/figures/Illustration_graphique_aggrégé_1.jpg)
 
 
 ### Illustration of the chronological graph
-![non-aggregated graphic illustrations](/figures/Illustration_graphique_non_aggreggé_1.jpg)
+![illustrations graphique non aggrégé](/figures/Illustration_graphique_non_aggrégé_1.jpg)
 
 
 ## Installation and setup
@@ -88,8 +88,6 @@ From Visual Code Studio with the Live Server extension, open the downloaded file
 
 As the software uses an online version of the D3.JS visualization library, an internet connection is required.
 
-
-Translated with www.DeepL.com/Translator (free version)
 
 ## Database
 Two databases are mainly used to feed the project: 
