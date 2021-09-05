@@ -22,7 +22,7 @@ Pour installer le programme, il est nécessaire de télécharger et d'extraire l
 
 Le programme n'étant pas encore hébergé sur un site internet, il peut être consulté en local en téléchargeant un logiciel d'édition de codes (comme  **[Visual Studio Code](https://code.visualstudio.com/download)**, en installant l'extension **[Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)**).
 
-Depuis Visual Code Studio avec l'extension Live Server, ouvrez le dossier téléchargé en cliquant sur "Fichier" puis "Ouvrir le dossier". Le script peut désormais être lancé en cliquant sur le bouton en bas à droite de l'écran **Go Live**. 
+Depuis Visual Code Studio avec l'extension Live Server, ouvrir le dossier téléchargé en cliquant sur "Fichier" puis "Ouvrir le dossier". Le script peut désormais être lancé en cliquant sur le bouton en bas à droite de l'écran **Go Live**. 
 
 Le logiciel utilisant une version en ligne de la librairie de visualisation D3.JS, une connexion à internet est requise.
 
