@@ -56,17 +56,7 @@ function changeSizeCircles(maxRadius){
   loadAgregateGraph(maxRadius/100, dateMinDefault, dateMaxDefault, rsLevelSelected, rsCategorieSelected)
 }
 
-/*function changeMaxDate(maxDate){
-  d3.select("svg").remove();
-  loadAgregateGraph(maxRadiusCircles, dateMinDefault, new Date(maxDate), rsLevelSelected, rsCategorieSelected)
-}*/
-
-/*function changeMinDate(minDate){
-  d3.select("svg").remove();
-  loadAgregateGraph(maxRadiusCircles, new Date(minDate), dateMaxDefault, rsLevelSelected, rsCategorieSelected)
-}*/
-
-function changeRsCategories(isChecked, rsCategorie){
+function changeRsCategories(){
   d3.select("svg").remove();
   dateAnneeMin = new Date(document.getElementById("selectAnnee").value).getFullYear();
   loadAgregateGraph(maxRadiusCircles, dateAnneeMin, dateMaxDefault, rsLevelSelected, rsCategorieSelected)
@@ -87,8 +77,6 @@ function selectedCategorie(rsLevelSelected, categorie){
   }else{
     document.location.reload();
   }
-
-
   dateAnneeMin = new Date(document.getElementById("selectAnnee").value).getFullYear();
 }
 
@@ -97,12 +85,6 @@ function changeAnnee(anneeMin){
   document.getElementById("selectAnnee").value = anneeMin;
   d3.select("svg").remove();
   initializeParameters();
-
-
-console.log("rsLevelSelected : " + rsLevelSelected);
-console.log("rsCategorieSelected : " + rsCategorieSelected);
-
-document.getElementById("rsCategories").innerHTML = '';
   loadAgregateGraph(maxRadiusCircles, anneeMin, dateAnneeMax, rsLevelSelected, rsCategorieSelected)
 }
 
@@ -124,10 +106,7 @@ function changeGraph(checked, value) {
 //-------------------------------------------------------------------------------------------
 loadAgregateGraph(maxRadiusCircles, dateMinDefault, dateMaxDefault, rsLevelSelected, rsCategorieSelected)// Appel de la fonction qui va charger les données et construire le graphique
 
-function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevel, rsCategorieSelected){
-  console.log("rsLevelSelected : " + rsLevelSelected)
-  rsLevelSelected = rsLevel
-
+function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevel, rsCategorie){
   const 
     hauteurLegende = 300,
     color = d3.scale.category10();
@@ -137,6 +116,8 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevel,
     nodes = new Array();
 
   dateMinSelected -= 1
+  rsLevelSelected = rsLevel
+  rsCategorieSelected = rsCategorie
 
   // Importation des données -------------------------------------------------------
   //--------------------------------------------------------------------------------
@@ -310,9 +291,9 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevel,
           law_label_node.append("rect")
           .attr("class", "rect_law_selected_label")
           .attr("x", "5%")
-          .attr("y", "25%")
+          .attr("y", "28%")
           .attr("width", 450)
-          .attr("height", 150)
+          .attr("height", 130)
           .attr('stroke', 'black')
           .attr("stroke-opacity", 0)
           .attr("fill-opacity", "0")// Opacité à 0 afin de cacher le rectangle
@@ -326,7 +307,7 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevel,
           law_label_node.append("text")
           .attr("class", "text_law_selected_label")
           .attr("dx", "5.5%")
-          .attr("dy", "28%")
+          .attr("dy", "31%")
           .style("opacity", 100)
           .style("font-size", "14px")
           .text("Titre : " + p.nom_de_la_loi);
@@ -334,7 +315,7 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevel,
           law_label_node.append("text")
             .attr("class", "text_law_selected_label")
             .attr("dx", "5.5%")
-            .attr("dy", "31.5%")
+            .attr("dy", "34.5%")
             .style("opacity", 100)
             .style("font-size", "14px")
             .text("Date de publication : " + p.date_de_publication);
@@ -342,7 +323,7 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevel,
           law_label_node.append("text")
             .attr("class", "text_law_selected_label")
             .attr("dx", "5.5%")
-            .attr("dy", "34.5%")
+            .attr("dy", "37.5%")
             .style("opacity", 100)
             .style("font-size", "14px")
             .text("Date du vote  : " + p.date_du_vote);
@@ -350,7 +331,7 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevel,
           law_label_node.append("text")
             .attr("class", "text_law_selected_label")
             .attr("dx", "5.5%")
-            .attr("dy", "37.5%")
+            .attr("dy", "40.5%")
             .style("opacity", 100)
             .style("font-size", "14px")
             .text("Nombre de pages : " + p.nb_pages);
@@ -371,7 +352,6 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevel,
           d3.select("svg").remove();
           document.getElementById("rsCategories").innerHTML = '';
           if(p.cluster != null && p.cluster.toString().length < 3){
-            //console.log("null ----------------------------------- //");
             maxRadiusCircles = 2;
             clusterPadding = 3;
             charge = -3;
@@ -379,7 +359,6 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevel,
             anneeMin = document.getElementById("selectAnnee").value;
             loadAgregateGraph(maxRadiusCircles, anneeMin, dateMaxDefault, rsLevelSelected+1, p.cluster)
           }else{
-            //console.log("reload ----------------------------------- //");
             document.location.reload();
           }
       }
@@ -425,7 +404,6 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevel,
         return function(d) {
           let cluster     
           clusters.forEach(function(c){
-            //console.log(c.cluster + " == " + d.cluster)
             if(c.cluster == d.cluster){ cluster = c}
           })
           if (cluster === d) return;
@@ -555,7 +533,6 @@ function LoadlineChart(){
       })
       max = d3.max(data, function(d) { return d.pages; });
       minDate = new Date(2010, 1, 1);
-      console.log("test 2 " + minDate)
       maxDate = new Date(2020, 12, 31);
   
       console.log("data for line chart")
@@ -619,7 +596,6 @@ function LoadlineChart(){
           .attr("dy", ".71em")
           .style("text-anchor", "end")
           .attr("font-weight", 700)
-          .style("opacity", 1)
-          .text("Nombre de pages publiées au RO");
+          .text("Nombre de pages publiées");
     });
 }
