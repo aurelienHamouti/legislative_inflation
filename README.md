@@ -10,7 +10,7 @@ L’objectif poursuivi est de permettre à l’utilisateur d’observer le trava
 
 
 ### Illustration du graphique agrégé 
-![illustration graphique agrégé](/figures/Illustration_graphique_agrégé_1.png)
+![illustration graphique agrégé](/figures/Illustration_graphique_agrégé_1.jpg)
 
 
 ### Illustration du graphique chronologique
