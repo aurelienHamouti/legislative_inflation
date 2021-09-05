@@ -10,11 +10,11 @@ L’objectif poursuivi est de permettre à l’utilisateur d’observer le trava
 
 
 ### Illustration du graphique agrégé 
-![illustration graphique agrégé](/figures/Illustration_graphique_agrégé_1..jpg)
+![illustration graphique agrégé](/figures/Illustration_graphique_agrégé_1.png)
 
 
 ### Illustration du graphique chronologique
-![illustration graphique non agrégé](/figures/Illustration_graphique_non_agrégé_1.jpg)
+![illustration graphique non agrégé](/figures/Illustration_graphique_non_agrégé_1.png)
 
 
 ## Installation et mise en place
@@ -72,11 +72,13 @@ The objective is to allow the user to observe the work done by the legislator an
 
 
 ### Illustration of the aggregated graph 
-![illustrations graphique aggrégé](/figures/Illustration_graphique_aggrégé_1.jpg)
+![illustration graphique agrégé](/figures/Illustration_graphique_agrégé_1.png)
+
 
 
 ### Illustration of the chronological graph
-![illustrations graphique non aggrégé](/figures/Illustration_graphique_non_aggrégé_1.jpg)
+![illustration graphique non agrégé](/figures/Illustration_graphique_non_agrégé_1.png)
+
 
 
 ## Installation and setup
