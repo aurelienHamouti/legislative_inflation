@@ -1,32 +1,33 @@
-/*
+/* -----------------------------------------------------------------------------
   Projet : 
     This project is part of the Data Visualization course taught by Mr. Isaac Pante at the University of Lausanne 
     during the spring 2021 semester. 
     - Course Git : https://github.com/ipante/ressources_visualisation_de_donnees
     - projet Git : https://github.com/aurelienHamouti/legislative_inflation
-    
   Date : September 2021
-
   Autors : 
     Aurélien Hamouti (developer): development and programming of the main code and integration to GitHub.
     Catherine Döbeli and David Pressouyre (lawyers): creation, enrichment and update of the databases and development assistance.
-  
   Licence : Copyright@ All rights reserved
-
   References : 
     https://bl.ocks.org/mbostock/7882658
     https://bl.ocks.org/emmasaunders/f55caf3a742aac10a5d44f58374bf343
-*/
 
 let maxRadiusCircles = document.getElementById("sizeCircles").value / 100,
     lstCategoriesRS = [],
     rsLevelSelected = 1
-    rsCategorieSelected = null
+    rsCategorieSelected = null,
+    charge = -3,
+    gravity = 0.02,
+    clusterPadding = 10, // Espace de séparation entre les différents noeuds de couleur
+    width = 1600, // Largeur de la zone de travail
+    height = 900, // Hauteur de la zone de travail
+    padding = 3, // Espace de séparation entre les noeuds de même couleur
+    delayTransition = 3, // Délai d'apparition des cercles
     dateAnneeMax = new Date(document.getElementById("anneeAfficheesMax").value).getFullYear(),
     dateAnneeMin = new Date(document.getElementById("anneeAfficheesMin").value).getFullYear();
 
 const 
-
       dateMaxDefault = dateAnneeMax,
       dateMinDefault = dateAnneeMin,
       parseDate = d3.time.format("%d.%m.%Y").parse,
@@ -36,6 +37,14 @@ document.getElementById("affichageAnneeSelectionnee").innerHTML = 'Lois publiée
 document.getElementById("selectAnnee").value = dateAnneeMin;
 document.getElementById("chChangeGraph").checked = true;
 
+function initializeParameters(){
+  charge = -3; gravity = 0.02; maxRadiusCircles = document.getElementById("sizeCircles").value / 100;
+  clusterPadding = 10; // Espace de séparation entre les différents noeuds de couleur
+  width = 1600; // Largeur de la zone de travail
+  height = 900; // Hauteur de la zone de travail
+  padding = 3; // Espace de séparation entre les noeuds de même couleur
+  delayTransition = 3; // Délai d'apparition des cercles
+}
 
 // Gestion des événements -----------------------------------------------------
 // ---------------------------------------------------------------------------
@@ -45,17 +54,7 @@ function changeSizeCircles(maxRadius){
   loadAgregateGraph(maxRadius/100, dateMinDefault, dateMaxDefault, rsLevelSelected, rsCategorieSelected)
 }
 
-/*function changeMaxDate(maxDate){
-  d3.select("svg").remove();
-  loadAgregateGraph(maxRadiusCircles, dateMinDefault, new Date(maxDate), rsLevelSelected, rsCategorieSelected)
-}*/
-
-/*function changeMinDate(minDate){
-  d3.select("svg").remove();
-  loadAgregateGraph(maxRadiusCircles, new Date(minDate), dateMaxDefault, rsLevelSelected, rsCategorieSelected)
-}*/
-
-function changeRsCategories(isChecked, rsCategorie){
+function changeRsCategories(){
   d3.select("svg").remove();
   dateAnneeMin = new Date(document.getElementById("selectAnnee").value).getFullYear();
   loadAgregateGraph(maxRadiusCircles, dateAnneeMin, dateMaxDefault, rsLevelSelected, rsCategorieSelected)
@@ -64,14 +63,26 @@ function changeRsCategories(isChecked, rsCategorie){
 function selectedCategorie(rsLevelSelected, categorie){
   d3.select("svg").remove();
   document.getElementById("rsCategories").innerHTML = '';
-  
-  loadAgregateGraph(maxRadiusCircles, dateMinDefault, dateMaxDefault, rsLevelSelected+1, categorie)
+
+  anneeMin = document.getElementById("selectAnnee").value;
+
+  if(rsLevelSelected < 3){
+    maxRadiusCircles = 1.5;
+    clusterPadding = 3;
+    charge = -3;
+    gravity = 0.02;
+    loadAgregateGraph(maxRadiusCircles, anneeMin, dateMaxDefault, rsLevelSelected+1, categorie)
+  }else{
+    document.location.reload();
+  }
+  dateAnneeMin = new Date(document.getElementById("selectAnnee").value).getFullYear();
 }
 
 function changeAnnee(anneeMin){
   document.getElementById("affichageAnneeSelectionnee").innerHTML = 'Lois publiées de : ' + anneeMin + ' à 2020';
   document.getElementById("selectAnnee").value = anneeMin;
   d3.select("svg").remove();
+  initializeParameters();
   loadAgregateGraph(maxRadiusCircles, anneeMin, dateAnneeMax, rsLevelSelected, rsCategorieSelected)
 }
 
@@ -93,23 +104,18 @@ function changeGraph(checked, value) {
 //-------------------------------------------------------------------------------------------
 loadAgregateGraph(maxRadiusCircles, dateMinDefault, dateMaxDefault, rsLevelSelected, rsCategorieSelected)// Appel de la fonction qui va charger les données et construire le graphique
 
-function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelSelected, rsCategorieSelected){
+function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevel, rsCategorie){
   const 
-    width = 1600, // Largeur de la zone de travail
-    height = 900, // Hauteur de la zone de travail
-    padding = 3, // Espace de séparation entre les noeuds de même couleur
-    delayTransition = 3, // Délai d'apparition des cercles
     hauteurLegende = 300,
     color = d3.scale.category10();
 
   let 
-    charge = -3,
-    gravity = 0.02,
-    clusterPadding = 7, // Espace de séparation entre les différents noeuds de couleur
     clusters = new Array(),
     nodes = new Array();
 
   dateMinSelected -= 1
+  rsLevelSelected = rsLevel
+  rsCategorieSelected = rsCategorie
 
   // Importation des données -------------------------------------------------------
   //--------------------------------------------------------------------------------
@@ -156,10 +162,9 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelS
         });
       });
 
-      console.log(lstCategoriesRS)// Affiche les données au format brut dans la console du navigateur
       console.log("Data with RS categories : ")// Affiche les données avec les catégories dans la console du navigateur
       console.log(data)// Affiche les données avec les catégories dans la console du navigateur
-      console.log("Catégorie RS de niveau 1")
+      console.log("Liste catégorie RS")
       console.log(lstCategoriesRS)  
       
     
@@ -236,6 +241,9 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelS
       console.log("liste des noeuds (cercles) :")
       console.log(nodes)
 
+      if(nodes <= 1){
+        document.location.reload();
+      }
 
       // Paramétrage des champs de forces, positionnement des cercles par rapport aux autres -------------------------------
       //--------------------------------------------------------------------------------------------------------------------
@@ -281,9 +289,9 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelS
           law_label_node.append("rect")
           .attr("class", "rect_law_selected_label")
           .attr("x", "5%")
-          .attr("y", "25%")
+          .attr("y", "28%")
           .attr("width", 450)
-          .attr("height", 150)
+          .attr("height", 130)
           .attr('stroke', 'black')
           .attr("stroke-opacity", 0)
           .attr("fill-opacity", "0")// Opacité à 0 afin de cacher le rectangle
@@ -297,7 +305,7 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelS
           law_label_node.append("text")
           .attr("class", "text_law_selected_label")
           .attr("dx", "5.5%")
-          .attr("dy", "28%")
+          .attr("dy", "31%")
           .style("opacity", 100)
           .style("font-size", "14px")
           .text("Titre : " + p.nom_de_la_loi);
@@ -305,7 +313,7 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelS
           law_label_node.append("text")
             .attr("class", "text_law_selected_label")
             .attr("dx", "5.5%")
-            .attr("dy", "31.5%")
+            .attr("dy", "34.5%")
             .style("opacity", 100)
             .style("font-size", "14px")
             .text("Date de publication : " + p.date_de_publication);
@@ -313,7 +321,7 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelS
           law_label_node.append("text")
             .attr("class", "text_law_selected_label")
             .attr("dx", "5.5%")
-            .attr("dy", "34.5%")
+            .attr("dy", "37.5%")
             .style("opacity", 100)
             .style("font-size", "14px")
             .text("Date du vote  : " + p.date_du_vote);
@@ -321,13 +329,13 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelS
           law_label_node.append("text")
             .attr("class", "text_law_selected_label")
             .attr("dx", "5.5%")
-            .attr("dy", "37.5%")
+            .attr("dy", "40.5%")
             .style("opacity", 100)
             .style("font-size", "14px")
             .text("Nombre de pages : " + p.nb_pages);
       }
 
-      function mouseout(p){// La souris quitte un cercle, on réinitialise le label
+      function mouseout(){// La souris quitte un cercle, on réinitialise le label
         if(!isClicked) {
           svg.selectAll(".rect_law_selected_label")
             .attr("fill-opacity", "0")
@@ -341,12 +349,18 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelS
           isClicked = !isClicked;
           d3.select("svg").remove();
           document.getElementById("rsCategories").innerHTML = '';
-          maxRadiusCircles = 2.1;
-          clusterPadding = 3;
-          charge = -3;
-          gravity = 0.02;
-          loadAgregateGraph(maxRadiusCircles, dateMinDefault, dateMaxDefault, rsLevelSelected+1, p.cluster)
+          if(p.cluster != null && p.cluster.toString().length < 3){
+            maxRadiusCircles = 2;
+            clusterPadding = 3;
+            charge = -3;
+            gravity = 0.02;
+            anneeMin = document.getElementById("selectAnnee").value;
+            loadAgregateGraph(maxRadiusCircles, anneeMin, dateMaxDefault, rsLevelSelected+1, p.cluster)
+          }else{
+            document.location.reload();
+          }
       }
+
       var isClicked = false;
 
       //----------------------------------------------------
@@ -388,7 +402,6 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelS
         return function(d) {
           let cluster     
           clusters.forEach(function(c){
-            //console.log(c.cluster + " == " + d.cluster)
             if(c.cluster == d.cluster){ cluster = c}
           })
           if (cluster === d) return;
@@ -445,10 +458,18 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevelS
         haut += 30
         var categorie = d.num_rs
         svg.append("text")
+          .attr("id", "rsTxt"+d.num_rs)
           .attr("x", 1180).attr("y", haut)
           .text(d.description_categorie_rs)
           .style("font-size", "15px").attr("alignment-baseline","middle")
           .attr("value", categorie)
+          .on("mouseover", function() {
+            svg.select("rsTxt"+d.num_rs).style("text-decoration", "underline")
+            //document.getElementById("rs"+d.num_rs).style.color = "blue";
+          })
+          .on("mouseout", function() {
+            svg.select("rsTxt"+d.num_rs).style("text-decoration", "none")
+          })
           .on("click", function(){
             selectedCategorie(rsLevelSelected, categorie)
           });
@@ -510,7 +531,6 @@ function LoadlineChart(){
       })
       max = d3.max(data, function(d) { return d.pages; });
       minDate = new Date(2010, 1, 1);
-      console.log("test 2 " + minDate)
       maxDate = new Date(2020, 12, 31);
   
       console.log("data for line chart")
@@ -574,7 +594,6 @@ function LoadlineChart(){
           .attr("dy", ".71em")
           .style("text-anchor", "end")
           .attr("font-weight", 700)
-          .style("opacity", 1)
-          .text("Nombre de pages publiées au RO");
+          .text("Nombre de pages publiées");
     });
 }
