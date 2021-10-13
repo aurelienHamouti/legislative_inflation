@@ -37,6 +37,16 @@ document.getElementById("affichageAnneeSelectionnee").innerHTML = 'Lois publiée
 document.getElementById("selectAnnee").value = dateAnneeMin;
 document.getElementById("chChangeGraph").checked = true;
 
+
+let dateYear = dateAnneeMin
+for(i = dateAnneeMin; i<=dateAnneeMax; i++){
+  let opt = document.createElement('option')
+  opt.value = dateYear
+  opt.label = dateYear
+  document.getElementById("anneesMarques").appendChild(opt)
+  dateYear += 1
+}
+
 function initializeParameters(){
   charge = -3; gravity = 0.02; maxRadiusCircles = document.getElementById("sizeCircles").value / 100;
   clusterPadding = 10; // Espace de séparation entre les différents noeuds de couleur

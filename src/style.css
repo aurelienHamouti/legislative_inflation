@@ -28,14 +28,6 @@ h2
     top: 0%;
 }
 
-/*sélecteur des années*/
-#selectAnnee {
-    position: absolute;
-    left: 5%;
-    top: 85%;
-    width:30%;
-}
-
 #affichageAnneeSelectionnee {
     position: absolute;
     left: 5%;
@@ -135,3 +127,42 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 } 
+
+/*sélecteur des années*/
+#selectAnnee {
+  position: absolute;
+  left: 5%;
+  top: 80%;
+  width:40%;
+}
+
+
+datalist {
+  display: flex;
+  position: absolute;
+  left: 5%;
+  top: 87%;
+ 
+  width: 40%;
+  justify-content: space-between;
+  margin-top: 0px;
+  padding-top: -50px;
+}
+
+option {
+  width: 2ex;
+  display: flex;
+  justify-content: center;
+  height: 10px;
+  align-items: end;
+  height: 1em;
+  background-position-y: -15px;
+  background-position-x: center;
+  z-index: -1;
+}
+
+@-moz-document url-prefix() {
+  datalist {
+    display: none;
+  }
+}
