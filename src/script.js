@@ -13,14 +13,12 @@
     https://bl.ocks.org/mbostock/7882658
     https://bl.ocks.org/emmasaunders/f55caf3a742aac10a5d44f58374bf343
 
-
----------------------------------------------------------------------------------*/
-
 let maxRadiusCircles = document.getElementById("sizeCircles").value / 100,
     lstCategoriesRS = [],
     rsLevelSelected = 1
     rsCategorieSelected = null,
     charge = -3,
+    minRadius = 2.5,
     gravity = 0.02,
     clusterPadding = 10, // Espace de séparation entre les différents noeuds de couleur
     width = 1600, // Largeur de la zone de travail
@@ -39,6 +37,16 @@ const
 document.getElementById("affichageAnneeSelectionnee").innerHTML = 'Lois publiées de ' + dateAnneeMin + ' à 2020';
 document.getElementById("selectAnnee").value = dateAnneeMin;
 document.getElementById("chChangeGraph").checked = true;
+
+
+let dateYear = dateAnneeMin
+for(i = dateAnneeMin; i<=dateAnneeMax; i++){
+  let opt = document.createElement('option')
+  opt.value = dateYear
+  opt.label = dateYear
+  document.getElementById("anneesMarques").appendChild(opt)
+  dateYear += 1
+}
 
 function initializeParameters(){
   charge = -3; gravity = 0.02; maxRadiusCircles = document.getElementById("sizeCircles").value / 100;
@@ -212,6 +220,7 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevel,
 
         function addNodesToList(cluster){
           let r = d.nb_pages * maxRadius;//pour chaque loi extraire nombre de page -> radius
+          if (r < minRadius){r = minRadius;}
           d = {
             cluster: cluster, 
             radius: r,
