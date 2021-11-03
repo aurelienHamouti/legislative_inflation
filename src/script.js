@@ -16,18 +16,24 @@
 
 let maxRadiusCircles = document.getElementById("sizeCircles").value / 100,
     lstCategoriesRS = [],
-    rsLevelSelected = 1
+    rsLevelSelected = 1,
     rsCategorieSelected = null,
     charge = -3,
-    minRadius = 2.5,
+    minRadius = 3,
     gravity = 0.02,
     clusterPadding = 10, // Espace de séparation entre les différents noeuds de couleur
     width = 1600, // Largeur de la zone de travail
     height = 900, // Hauteur de la zone de travail
     padding = 3, // Espace de séparation entre les noeuds de même couleur
     delayTransition = 3, // Délai d'apparition des cercles
-    dateAnneeMax = new Date(document.getElementById("anneeAfficheesMax").value).getFullYear(),
-    dateAnneeMin = new Date(document.getElementById("anneeAfficheesMin").value).getFullYear();
+    dateAnneeMax = 2020
+    dateAnneeMin = 2010
+    //dateAnneeMax = new Date(document.getElementById("anneeAfficheesMax").value).getFullYear(),
+    //dateAnneeMin = new Date(document.getElementById("anneeAfficheesMin").value).getFullYear();
+    document.getElementById("selectAnnee").max = dateAnneeMax;
+    document.getElementById("selectAnnee").min = dateAnneeMin;
+    document.getElementById("selectAnnee").defaultValue = dateAnneeMax;
+    
 
 const 
       dateMaxDefault = dateAnneeMax,
@@ -35,8 +41,8 @@ const
       parseDate = d3.time.format("%d.%m.%Y").parse,
       tab_mois = new Array("janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre");
 
-document.getElementById("affichageAnneeSelectionnee").innerHTML = 'Lois publiées de ' + dateAnneeMin + ' à 2020';
-document.getElementById("selectAnnee").value = dateAnneeMin;
+document.getElementById("affichageAnneeSelectionnee").innerHTML = 'Lois publiées de ' + dateAnneeMin + ' à ' + dateAnneeMax;
+//document.getElementById("selectAnnee").value = dateAnneeMin;
 document.getElementById("chChangeGraph").checked = true;
 
 
@@ -90,12 +96,12 @@ function selectedCategorie(rsLevelSelected, categorie){
   dateAnneeMin = new Date(document.getElementById("selectAnnee").value).getFullYear();
 }
 
-function changeAnnee(anneeMin){
-  document.getElementById("affichageAnneeSelectionnee").innerHTML = 'Lois publiées de : ' + anneeMin + ' à 2020';
-  document.getElementById("selectAnnee").value = anneeMin;
+function changeAnnee(anneeMax){
+  document.getElementById("affichageAnneeSelectionnee").innerHTML = 'Lois publiées de : ' + dateAnneeMin + ' à ' + anneeMax;
+  document.getElementById("selectAnnee").value = anneeMax;
   d3.select("svg").remove();
   initializeParameters();
-  loadAgregateGraph(maxRadiusCircles, anneeMin, dateAnneeMax, rsLevelSelected, rsCategorieSelected)
+  loadAgregateGraph(maxRadiusCircles, dateAnneeMin, anneeMax, rsLevelSelected, rsCategorieSelected)
 }
 
 function changeGraph(checked, value) {
