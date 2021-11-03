@@ -2,8 +2,20 @@
 *
 {
     font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+    margin:0;
+    padding:0;
+  
 }
 
+body, html{height:100%;}
+
+body{
+max-width:1280px;
+min-height:100%;
+margin:0 auto;
+position:relative;
+}
 /* Titre */
 h1
 {
@@ -165,4 +177,13 @@ option {
   datalist {
     display: none;
   }
+}
+
+/* Footer */
+footer {
+  position:absolute;
+  left:0;
+  bottom:0;
+  width: 100%;
+  font-size: 10px;
 }

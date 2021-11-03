@@ -12,7 +12,7 @@
   References : 
     https://bl.ocks.org/mbostock/7882658
     https://bl.ocks.org/emmasaunders/f55caf3a742aac10a5d44f58374bf343
--------------------------------------------------------------------------------*/
+
 let maxRadiusCircles = document.getElementById("sizeCircles").value / 100,
     lstCategoriesRS = [],
     rsLevelSelected = 1
@@ -254,7 +254,9 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevel,
       console.log(nodes)
 
       if(nodes <= 1){
-        document.location.reload();
+
+        //document.location.reload();
+
       }
 
       // Paramétrage des champs de forces, positionnement des cercles par rapport aux autres -------------------------------
