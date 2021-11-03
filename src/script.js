@@ -18,6 +18,7 @@ let maxRadiusCircles = document.getElementById("sizeCircles").value / 100,
     rsLevelSelected = 1
     rsCategorieSelected = null,
     charge = -3,
+    minRadius = 2.5,
     gravity = 0.02,
     clusterPadding = 10, // Espace de séparation entre les différents noeuds de couleur
     width = 1600, // Largeur de la zone de travail
@@ -219,6 +220,7 @@ function loadAgregateGraph(maxRadius, dateMinSelected, dateMaxSelected, rsLevel,
 
         function addNodesToList(cluster){
           let r = d.nb_pages * maxRadius;//pour chaque loi extraire nombre de page -> radius
+          if (r < minRadius){r = minRadius;}
           d = {
             cluster: cluster, 
             radius: r,
